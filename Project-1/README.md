@@ -1,4 +1,4 @@
-# Project-1 : Customer-DataBase
+# Project-1 : Home-Inventory
 * Creates a inventory in JSON file
 * Collects data from the user and update the inventory.
 * Performs other tasks based on the user choice and exits the application when user enters 0.
