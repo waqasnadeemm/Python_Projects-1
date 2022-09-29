@@ -33,7 +33,7 @@ display_usage() {
 	echo " Usage: ./`basename "$0"` [ --help | --check-tools | no argument | --install | --run-main | --runtests ] "
 	echo
 	# shellcheck disable=SC2006
-	echo " Examples: ./`basename "$0"` --check-tools   		# Show this usage message "
+	echo " Examples: ./`basename "$0"` --checktools   		# Show this usage message "
 	# shellcheck disable=SC2006
 	echo "           ./`basename "$0"` --help         		# Check for required tools "
 	# shellcheck disable=SC2006
@@ -41,7 +41,7 @@ display_usage() {
 	# shellcheck disable=SC2006
 	echo "           ./`basename "$0"` --install      		# pipenv install "
 	# shellcheck disable=SC2006
-	echo "           ./`basename "$0"` --run-main      		# pipenv run python3 src/main.py "
+	echo "           ./`basename "$0"` --runmain      		# pipenv run python3 src/main.py "
 	# shellcheck disable=SC2006
 	echo "           ./`basename "$0"` --runtests     		# pipevn run pytest "
 	# shellcheck disable=SC2006
@@ -57,7 +57,7 @@ runtests() {
 	pipenv run pytest
 }
 
-run-main() {
+runmain() {
 	pipenv run python3 src/main.py
 }
 
@@ -65,7 +65,7 @@ install() {
 	pipenv install
 }
 
-check_doc_comments() {
+checkdoccomments() {
 	pipenv run pydocstyle src/
 }
 

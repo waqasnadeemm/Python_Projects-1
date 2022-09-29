@@ -1,16 +1,12 @@
-# This is a sample Python script.
-
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
+from inventory import Inventory
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
+def main():
+    """Execute when it's the main execution module."""
+    home_inventory_app = Inventory()
+    home_inventory_app.start_application()
 
 
-# Press the green button in the gutter to run the script.
+# Call main() if this is the main execution module
 if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    main()
