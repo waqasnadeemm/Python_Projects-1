@@ -12,6 +12,4 @@ Run `./build.sh` to check for required tools and display a list of commands.
 
 Run `./build.sh --install` to install Pipfile packages.
 
-**NOTE:** If you're running Windows, you'll need to edit the `build.sh` script, locate the `runmain()` method and change `python3` to `python`.
-
 Run `./build.sh --runmain` to run the Home Inventory Application. 
