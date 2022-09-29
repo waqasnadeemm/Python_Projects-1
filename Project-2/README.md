@@ -1,8 +1,7 @@
-# Home Inventory Application Framework
-
-Implements a reference application you can use for inspiration. 
-
-The application displays a sample menu from which users make a selection. The application processes user's menu choice and calls a corresponding method, which is stubbed out, or exits the application when the user enters 7 by setting the `self.keep_going` to `False`.
+# Project-2 : Home-Inventory
+* Creates a inventory in JSON file
+* Collects data from the user and update the inventory.
+* Performs other tasks based on the user choice and exits the application when user enters 0.
 
 ## General Instructions
 Clone the containing repo into a local folder of your choice on your machine:
