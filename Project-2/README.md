@@ -7,12 +7,10 @@ The application displays a sample menu from which users make a selection. The ap
 ## General Instructions
 Clone the containing repo into a local folder of your choice on your machine:
 
-`git@github.com:pulpfreepress/it-566-computer-scripting.git`
+`git@github.com:smarni4/Python_Projects.git`
 
 Run `./build.sh` to check for required tools and display a list of commands.
 
 Run `./build.sh --install` to install Pipfile packages.
-
-**NOTE:** If you're running Windows, you'll need to edit the `build.sh` script, locate the `runmain()` method and change `python3` to `python`.
 
 Run `./build.sh --runmain` to run the Home Inventory Application. 
