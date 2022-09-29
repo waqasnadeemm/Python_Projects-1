@@ -6,7 +6,7 @@
 ## General Instructions
 Clone the containing repo into a local folder of your choice on your machine:
 
-`git@github.com:pulpfreepress/it-566-computer-scripting.git`
+`git@github.com:smarni4/Python_Projects.git`
 
 Run `./build.sh` to check for required tools and display a list of commands.
 
