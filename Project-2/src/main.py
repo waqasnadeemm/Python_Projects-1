@@ -1,9 +1,9 @@
-from inventory import Inventory
+from itemslist import Inventory, ItemsList
 
 
 def main():
     """Execute when it's the main execution module."""
-    home_inventory_app = Inventory()
+    home_inventory_app = ItemsList()
     home_inventory_app.start_application()
 
 

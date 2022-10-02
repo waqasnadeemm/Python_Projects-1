@@ -1,8 +1,8 @@
-
-{"1001": {
+{
+  "1001": {
     "Item Name": "Bed",
     "Room": "Bedroom",
-    "Item Price": 2000,
+    "Item Price": 1000,
     "Item Quantity": 1
   },
   "1002": {
