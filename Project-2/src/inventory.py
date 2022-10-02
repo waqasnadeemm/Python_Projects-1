@@ -70,6 +70,7 @@ class Inventory:
         """Load inventory from file."""
         new1 = {self.item_num: {"Item Name": self.item_name, "Room": self.room_name, "Item Price": self.item_price,
                                 "Item Quantity": self.item_quantity}}
+        ls = list(new1)
         with open("src/database.json", "r+") as db:
             data = json.load(db)
             # print(type(data))  # Dict
