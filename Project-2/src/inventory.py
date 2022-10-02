@@ -62,7 +62,7 @@ class Inventory:
         """Create new inventory."""
         new = {self.item_num: {"Item Name": self.item_name, "Room": self.room_name, "Item Price": self.item_price,
                                "Item Quantity": self.item_quantity}}
-        with open("database.json", "w") as db:
+        with open("../database.json", "w") as db:
             json.dump(new, db, indent=2)
         print('new_inventory() method called...')
 
@@ -70,7 +70,7 @@ class Inventory:
         """Load inventory from file."""
         new1 = {self.item_num: {"Item Name": self.item_name, "Room": self.room_name, "Item Price": self.item_price,
                                 "Item Quantity": self.item_quantity}}
-        with open("database.json", "r+") as db:
+        with open("../database.json", "r+") as db:
             data = json.load(db)
             # print(type(data))  # Dict
             data.update(new1)
@@ -81,7 +81,7 @@ class Inventory:
 
     def list_inventory(self):
         """List inventory."""
-        with open("database.json", "r") as db:
+        with open("../database.json", "r") as db:
             output = json.load(db)
             # print(type(output))
             for k, v in output.items():
