@@ -1,4 +1,4 @@
-from itemslist import Inventory, ItemsList
+from app import ItemsList
 
 
 def main():

@@ -1,14 +1,30 @@
 {
-  "1001": {
-    "Item Name": "Bed",
-    "Room": "Bedroom",
-    "Item Price": 1000,
-    "Item Quantity": 1
-  },
-  "1002": {
-    "Item Name": "Lamp",
-    "Room": "Bedroom",
-    "Item Price": 80,
-    "Item Quantity": 2
+  "Type": "Home",
+  "Date": "10-03-22",
+  "Items": {
+    "10001": {
+      "Item Name": "Bed",
+      "Room": "Bedroom",
+      "Item Price": 1000,
+      "Item Quantity": 1
+    },
+    "1002": {
+      "Item Name": "Lamp",
+      "Room": "Bedroom",
+      "Item Price": 90,
+      "Item Quantity": 2
+    },
+    "1003": {
+      "Item Name": "Tv",
+      "Room": "Living room",
+      "Item Price": 1500,
+      "Item Quantity": 1
+    },
+    "1004": {
+      "Item Name": "Table",
+      "Room": "Living room",
+      "Item Price": 600,
+      "Item Quantity": 1
+    }
   }
 }
