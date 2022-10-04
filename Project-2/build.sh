@@ -8,8 +8,8 @@
 #: Options      : None
 
 # Global Constants
-# TOOLS: A list of required tools. Edit as required. Sometoolnotinstalled to
-#        show what a missing tool message looks like.
+# TOOLS: A list of required tools. Edit as required.
+
 declare -r TOOLS="git python3 pipenv"
 
 # Global Variables
@@ -65,7 +65,7 @@ install() {
 	pipenv install
 }
 
-checkdoccomments() {
+check_doc_comments() {
 	pipenv run pydocstyle src/
 }
 

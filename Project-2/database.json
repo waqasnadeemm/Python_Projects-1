@@ -1,8 +1,8 @@
 {
-  "Type": "Home",
-  "Date": "10-03-22",
+  "Name": "Home",
+  "Date Modified": "10/04/22",
   "Items": {
-    "10001": {
+    "1001": {
       "Item Name": "Bed",
       "Room": "Bedroom",
       "Item Price": 1000,
@@ -15,16 +15,10 @@
       "Item Quantity": 2
     },
     "1003": {
-      "Item Name": "Tv",
+      "Item Name": "Lamp",
       "Room": "Living room",
-      "Item Price": 1500,
-      "Item Quantity": 1
-    },
-    "1004": {
-      "Item Name": "Table",
-      "Room": "Living room",
-      "Item Price": 600,
-      "Item Quantity": 1
+      "Item Price": 90,
+      "Item Quantity": 2
     }
   }
 }

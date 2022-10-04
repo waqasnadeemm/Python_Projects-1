@@ -12,7 +12,7 @@ class ItemsList(Inventory):     # Inheritance
                 self.get_inputs()
                 self.new_inventory()
             case self.LOAD_INVENTORY:
-                self.get_inputs()
+                # self.get_inputs()
                 self.load_inventory()
             case self.LIST_INVENTORY:
                 self.list_inventory()

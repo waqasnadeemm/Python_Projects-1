@@ -36,18 +36,18 @@ class Inventory:
 
     def get_inputs(self):
         # Inputs
-        self.item_name = input("Enter the item name: ").capitalize()
         self.item_num = int(input("Enter the item number: "))
+        self.item_name = input("Enter the item name: ").capitalize()
         self.room_name = input("Enter the room name you want to place the item: ").capitalize()
         self.item_price = int(input("Enter the item price: $"))
         self.item_quantity = int(input("Enter the item quantity: "))
 
     def new_inventory(self):
         """Create new inventory."""
-        print('new_inventory() method called...')
         new = {}
-        new["Type"] = input("Enter the type: ").capitalize()
-        new["Date"] = date.today().strftime("%m-%d-%y")
+        new["Name"] = input("Enter the name of the inventory: ").capitalize()
+        new["Date Modified"] = date.today().strftime("%m-%d-%y")
+        print('new_inventory() method called...')
         new["Items"] = {self.item_num: {"Item Name": self.item_name, "Room": self.room_name,
                                         "Item Price": self.item_price, "Item Quantity": self.item_quantity}}
         with open("database.json", "w") as db:
@@ -56,15 +56,28 @@ class Inventory:
     def load_inventory(self):
         """Load inventory from file."""
         print('load_inventory() method called...')
-        new1 = {self.item_num: {"Item Name": self.item_name, "Room": self.room_name, "Item Price": self.item_price,
-                                "Item Quantity": self.item_quantity}}
 
         with open("database.json", "r+") as db:
             data = json.load(db)
-            print(type(data["Items"]))  # Dict
-            data["Items"].update(new1)
-            db.seek(0)
-            json.dump(data, db, indent=2)
+            print("List of Item numbers in the inventory:")
+            for k, v in data.items():
+                if k == "Items":
+                    i = 1
+                    for k1 in data[k].keys():
+                        li = [k1]
+                        print(f"\t{i}. {k1}")
+                        i += 1
+            Inventory.get_inputs(self)
+            if str(self.item_num) in li[:]:
+                print("\n\tItem number is already used.")
+            else:
+                new1 = {
+                    self.item_num: {"Item Name": self.item_name, "Room": self.room_name, "Item Price": self.item_price,
+                                    "Item Quantity": self.item_quantity}}
+                data["Date Modified"] = date.today().strftime("%m/%d/%y")
+                data["Items"].update(new1)
+                db.seek(0)
+                json.dump(data, db, indent=2)
 
     def list_inventory(self):
         """List inventory."""
@@ -74,10 +87,19 @@ class Inventory:
         for k, v in output.items():
             if k == "Items":
                 for k1, v1 in output[k].items():
-                    print(f"Item Number: {k1}")
                     for k2, v2 in v1.items():
-                        print(f"\t{k2}: {v2}")
-                    print("\n")
+                        if k2 == "Item Name":
+                            print("Items list:")
+                            print(f'{k1} : {v2}')
+        choice = int(input("For brief information of items. Press 1 : "))
+        if choice == 1:
+            for k, v in output.items():
+                if k == "Items":
+                    for k1, v1 in output[k].items():
+                        print(f"Item Number: {k1}")
+                        for k2, v2 in v1.items():
+                            print(f"\t{k2}: {v2}")
+                        print("\n")
 
     def search_inventory(self):
         """Search Inventory"""
@@ -114,4 +136,3 @@ class Inventory:
                             pass
         else:
             return
-
