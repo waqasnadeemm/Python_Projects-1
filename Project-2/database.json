@@ -31,6 +31,12 @@
       "Room": "Work space",
       "Item Price": 400,
       "Item Quantity": 1
+    },
+    "1006": {
+      "Item Name": "Tv",
+      "Room": "Living room",
+      "Item Price": 1500,
+      "Item Quantity": 1
     }
   }
 }

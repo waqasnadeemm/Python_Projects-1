@@ -24,6 +24,9 @@ class Inventory:
         self.item_quantity = None
         self.item_num = None
 
+    def __str__(self):  # magic method
+        return f"\tItem added lastly \n-----> {self.item_num} - {self.item_name}."
+
     def decorator1(func):
         def inner(self):
             print("*" * 40)
@@ -157,6 +160,3 @@ class Inventory:
                             pass
         else:
             return
-
-    def __str__(self):  # magic method
-        return f"\tItem added lastly \n-----> {self.item_num} - {self.item_name}."
