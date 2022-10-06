@@ -1,4 +1,5 @@
 from src.inventory import Inventory
+# from decorator import decorator
 
 
 class ItemsList(Inventory):     # Inheritance
@@ -9,17 +10,14 @@ class ItemsList(Inventory):     # Inheritance
         print(f'You entered: {self.menu_choice}\n')
         match self.menu_choice:
             case self.NEW_INVENTORY:
-                self.get_inputs()
                 self.new_inventory()
             case self.LOAD_INVENTORY:
-                # self.get_inputs()
                 self.load_inventory()
             case self.LIST_INVENTORY:
                 self.list_inventory()
             case self.SEARCH_INVENTORY:
                 self.search_inventory()
             case self.EXIT:
-                print('Goodbye!')
                 self.keep_going = False
             case _:
                 print('Invalid Menu Choice!')

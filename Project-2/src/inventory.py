@@ -1,4 +1,5 @@
 import json
+
 from datetime import date
 
 
@@ -23,16 +24,31 @@ class Inventory:
         self.item_quantity = None
         self.item_num = None
 
+    def decorator1(func):
+        def inner(self):
+            print("*" * 40)
+            func(self)
+            print("*" * 40)
+        return inner
+
+    def decorator2(func):
+        def inner(self):
+            print("#" * 40)
+            func(self)
+            print("#" * 40)
+        return inner
+
+    @decorator2
+    @decorator1
     def display_menu(self):
         """Display menu."""
-        print('\n\tHousehold Inventory Application')
+        print('\tHousehold Inventory Application')
         print()
         print('\t\t1. New Inventory')
         print('\t\t2. Load Inventory')
         print('\t\t3. List Inventory')
         print('\t\t4. Search Inventory')
         print('\t\t0. Exit')
-        print()
 
     def get_inputs(self):
         # Inputs
@@ -42,12 +58,14 @@ class Inventory:
         self.item_price = int(input("Enter the item price: $"))
         self.item_quantity = int(input("Enter the item quantity: "))
 
+    @decorator1
     def new_inventory(self):
         """Create new inventory."""
         new = {}
         new["Name"] = input("Enter the name of the inventory: ").capitalize()
         new["Date Modified"] = date.today().strftime("%m-%d-%y")
         print('new_inventory() method called...')
+        Inventory.get_inputs(self)
         new["Items"] = {self.item_num: {"Item Name": self.item_name, "Room": self.room_name,
                                         "Item Price": self.item_price, "Item Quantity": self.item_quantity}}
         with open("database.json", "w") as db:
@@ -79,17 +97,18 @@ class Inventory:
                 db.seek(0)
                 json.dump(data, db, indent=2)
 
+    @decorator2
     def list_inventory(self):
         """List inventory."""
         print('list_inventory() method called...\n')
         with open("database.json", "r") as db:
             output = json.load(db)
+        print("Items list:")
         for k, v in output.items():
             if k == "Items":
                 for k1, v1 in output[k].items():
                     for k2, v2 in v1.items():
                         if k2 == "Item Name":
-                            print("Items list:")
                             print(f'{k1} : {v2}')
         choice = int(input("For brief information of items. Press 1 : "))
         if choice == 1:
@@ -100,6 +119,8 @@ class Inventory:
                         for k2, v2 in v1.items():
                             print(f"\t{k2}: {v2}")
                         print("\n")
+        else:
+            pass
 
     def search_inventory(self):
         """Search Inventory"""
@@ -136,3 +157,6 @@ class Inventory:
                             pass
         else:
             return
+
+    def __str__(self):  # magic method
+        return f"\tItem added lastly \n-----> {self.item_num} - {self.item_name}."

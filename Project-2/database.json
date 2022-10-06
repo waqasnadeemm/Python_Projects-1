@@ -1,6 +1,6 @@
 {
   "Name": "Home",
-  "Date Modified": "10/04/22",
+  "Date Modified": "10/05/22",
   "Items": {
     "1001": {
       "Item Name": "Bed",
@@ -15,10 +15,22 @@
       "Item Quantity": 2
     },
     "1003": {
-      "Item Name": "Lamp",
+      "Item Name": "Carpet",
       "Room": "Living room",
-      "Item Price": 90,
-      "Item Quantity": 2
+      "Item Price": 150,
+      "Item Quantity": 1
+    },
+    "1004": {
+      "Item Name": "Table",
+      "Room": "Work space",
+      "Item Price": 200,
+      "Item Quantity": 1
+    },
+    "1005": {
+      "Item Name": "Gaming chair",
+      "Room": "Work space",
+      "Item Price": 400,
+      "Item Quantity": 1
     }
   }
 }
