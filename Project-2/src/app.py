@@ -1,4 +1,4 @@
-from src.inventory import Inventory
+from inventory import Inventory
 import json
 
 
@@ -17,6 +17,8 @@ class ItemsList(Inventory):     # Inheritance
                 self.list_inventory()
             case self.SEARCH_INVENTORY:
                 self.search_inventory()
+            case self.COUNT_O_EACH_ITEM:
+                self.count_o_each_item()
             case self.EXIT:
                 test = open("database.json", "r")
                 tdata = json.load(test)
@@ -29,6 +31,7 @@ class ItemsList(Inventory):     # Inheritance
                         for k1, v1 in value.items():
                             print(f'\t{k1: <15}\t - {v1}')
                         break
+                    print()
                     self.keep_going = False
             case _:
                 print('Invalid Menu Choice!')

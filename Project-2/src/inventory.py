@@ -14,6 +14,7 @@ class Inventory:
         self.LOAD_INVENTORY = '2'
         self.LIST_INVENTORY = '3'
         self.SEARCH_INVENTORY = '4'
+        self.COUNT_O_EACH_ITEM = '5'
         self.EXIT = '0'
         # Fields
         self.menu_choice = 1
@@ -33,13 +34,16 @@ class Inventory:
 
     def decorator1(func):
         def inner(self):
+            print()
             print("*" * 40)
             func(self)
             print("*" * 40)
+            print()
         return inner
 
     def decorator2(func):
         def inner(self):
+            print()
             print("#" * 40)
             func(self)
             print("#" * 40)
@@ -55,6 +59,7 @@ class Inventory:
         print('\t\t2. Load Inventory')
         print('\t\t3. List Inventory')
         print('\t\t4. Search Inventory')
+        print('\t\t5. Count of Each Item')
         print('\t\t0. Exit')
 
     def get_inputs(self):
@@ -86,22 +91,19 @@ class Inventory:
         with open("database.json", "r+") as db:
             data = json.load(db)
             print("List of Item numbers in the inventory:")
-            for k, v in data.items():
-                if k == "Items":
-                    i = 1
-                    for k1 in data[k].keys():
-                        li = [k1]
-                        print(f"\t{i}. {k1}")
-                        i += 1
+            i = 1
+            for k, v in data["Items"].items():
+                li = [k]
+                print(f"\t{i}. {k: <10} - {v['Item Name']}")
+                i += 1
             Inventory.get_inputs(self)
             if str(self.item_num) in li[:]:
                 print("\n\tItem number is already used.")
             else:
-                new1 = {
-                    self.item_num: {"Item Name": self.item_name, "Room": self.room_name, "Item Price": self.item_price,
-                                    "Item Quantity": self.item_quantity}}
                 data["Date Modified"] = date.today().strftime("%m/%d/%y")
-                data["Items"].update(new1)
+                data["Items"].update({self.item_num: {"Item Name": self.item_name, "Room": self.room_name,
+                                                      "Item Price": self.item_price,
+                                                      "Item Quantity": self.item_quantity}})
                 db.seek(0)
                 json.dump(data, db, indent=2)
             print(f'Number of items in the Inventory = {len(data["Items"])}')
@@ -166,3 +168,15 @@ class Inventory:
                             pass
         else:
             return
+
+    def count_o_each_item(self):
+        count = 0
+        item = input("Enter the name of item you want to lookup:").capitalize()
+        with open("database.json", "r") as db:
+            data = json.load(db)
+        for key, value in data["Items"].items():
+            if item == value["Item Name"]:
+                count += value["Item Quantity"]
+            else:
+                pass
+        print(f"Total number of {item}'s : {count}")
