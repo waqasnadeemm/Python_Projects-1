@@ -5,6 +5,7 @@ from datetime import date
 
 class Inventory:
     """Implements household inventory control features."""
+    number_of_items = 0
 
     def __init__(self):
         """Initialize object."""
@@ -23,6 +24,9 @@ class Inventory:
         self.item_price = None
         self.item_quantity = None
         self.item_num = None
+
+        # Dictionary
+        self.new = {}
 
     def __str__(self):  # magic method
         return f"\tItem added lastly \n-----> {self.item_num} - {self.item_name}."
@@ -64,15 +68,16 @@ class Inventory:
     @decorator1
     def new_inventory(self):
         """Create new inventory."""
-        new = {}
-        new["Name"] = input("Enter the name of the inventory: ").capitalize()
-        new["Date Modified"] = date.today().strftime("%m-%d-%y")
+        # new = {}
+        self.new["Name"] = input("Enter the name of the inventory: ").capitalize()
+        self.new["Date Modified"] = date.today().strftime("%m-%d-%y")
         print('new_inventory() method called...')
         Inventory.get_inputs(self)
-        new["Items"] = {self.item_num: {"Item Name": self.item_name, "Room": self.room_name,
-                                        "Item Price": self.item_price, "Item Quantity": self.item_quantity}}
+        self.new["Items"] = {self.item_num: {"Item Name": self.item_name, "Room": self.room_name,
+                             "Item Price": self.item_price, "Item Quantity": self.item_quantity}}
         with open("database.json", "w") as db:
-            json.dump(new, db, indent=2)
+            json.dump(self.new, db, indent=2)
+        print("\nNumber of items in the inventory = 1")
 
     def load_inventory(self):
         """Load inventory from file."""
@@ -99,6 +104,7 @@ class Inventory:
                 data["Items"].update(new1)
                 db.seek(0)
                 json.dump(data, db, indent=2)
+            print(f'Number of items in the Inventory = {len(data["Items"])}')
 
     @decorator2
     def list_inventory(self):

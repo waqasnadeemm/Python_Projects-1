@@ -1,5 +1,5 @@
 from src.inventory import Inventory
-# from decorator import decorator
+import json
 
 
 class ItemsList(Inventory):     # Inheritance
@@ -18,7 +18,18 @@ class ItemsList(Inventory):     # Inheritance
             case self.SEARCH_INVENTORY:
                 self.search_inventory()
             case self.EXIT:
-                self.keep_going = False
+                test = open("database.json", "r")
+                tdata = json.load(test)
+                i = 0
+                for key, value in tdata["Items"].items():
+                    i += 1
+                    while i == len(tdata["Items"]):
+                        print("\n\t Items added lastly")
+                        print(f'-->\nItem Number: {key}')
+                        for k1, v1 in value.items():
+                            print(f'\t{k1: <15}\t - {v1}')
+                        break
+                    self.keep_going = False
             case _:
                 print('Invalid Menu Choice!')
 
