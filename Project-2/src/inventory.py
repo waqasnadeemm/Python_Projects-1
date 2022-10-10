@@ -1,6 +1,7 @@
 import json
 
 from datetime import date
+from termcolor import colored, cprint
 
 
 class Inventory:
@@ -53,14 +54,15 @@ class Inventory:
     @decorator1
     def display_menu(self):
         """Display menu."""
-        print('\tHousehold Inventory Application')
+        cprint('\n\tHousehold Inventory Application', "red", attrs=["bold"])
         print()
-        print('\t\t1. New Inventory')
-        print('\t\t2. Load Inventory')
-        print('\t\t3. List Inventory')
-        print('\t\t4. Search Inventory')
-        print('\t\t5. Count of Each Item')
-        print('\t\t0. Exit')
+        cprint('\t  1. New Inventory\t\t', "green")
+        cprint('\t  2. Load Inventory\t\t', "yellow")
+        cprint('\t  3. List Inventory\t\t', "blue")
+        cprint('\t  4. Search Inventory\t', "magenta")
+        cprint('\t  5. Count of Each Item\t', "cyan")
+        cprint('\t  0. Exit\t\t\t\t', "white")
+        print()
 
     def get_inputs(self):
         # Inputs

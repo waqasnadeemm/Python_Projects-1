@@ -1,42 +1,30 @@
 {
   "Name": "Home",
-  "Date Modified": "10/05/22",
+  "Date Modified": "10/08/22",
   "Items": {
     "1001": {
-      "Item Name": "Bed",
-      "Room": "Bedroom",
-      "Item Price": 1000,
-      "Item Quantity": 1
-    },
-    "1002": {
-      "Item Name": "Lamp",
-      "Room": "Bedroom",
-      "Item Price": 90,
-      "Item Quantity": 2
-    },
-    "1003": {
-      "Item Name": "Carpet",
-      "Room": "Living room",
-      "Item Price": 150,
-      "Item Quantity": 1
-    },
-    "1004": {
-      "Item Name": "Table",
-      "Room": "Work space",
-      "Item Price": 200,
-      "Item Quantity": 1
-    },
-    "1005": {
-      "Item Name": "Gaming chair",
+      "Item Name": "Work table",
       "Room": "Work space",
       "Item Price": 400,
       "Item Quantity": 1
     },
-    "1006": {
-      "Item Name": "Tv",
-      "Room": "Living room",
-      "Item Price": 1500,
+    "1002": {
+      "Item Name": "Desktop",
+      "Room": "Work space",
+      "Item Price": 350,
+      "Item Quantity": 2
+    },
+    "1003": {
+      "Item Name": "Gaming chair",
+      "Room": "Work space",
+      "Item Price": 750,
       "Item Quantity": 1
+    },
+    "1004": {
+      "Item Name": "Desktop",
+      "Room": "Office",
+      "Item Price": 400,
+      "Item Quantity": 3
     }
   }
 }
