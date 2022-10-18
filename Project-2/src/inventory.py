@@ -1,7 +1,7 @@
 import json
 
 from datetime import date
-from termcolor import colored, cprint
+from termcolor import cprint
 
 
 class Inventory:
@@ -173,12 +173,18 @@ class Inventory:
 
     def count_o_each_item(self):
         count = 0
-        item = input("Enter the name of item you want to lookup:").capitalize()
         with open("database.json", "r") as db:
             data = json.load(db)
+        i = 1
+        for v in data["Items"].values():
+            print(f'{i}. {v["Item Name"]}')
+            i += 1
+        item = input("Enter the name of item you want to lookup:").capitalize()
         for key, value in data["Items"].items():
+
             if item == value["Item Name"]:
                 count += value["Item Quantity"]
             else:
                 pass
+            i += 1
         print(f"Total number of {item}'s : {count}")

@@ -10,7 +10,7 @@
 # Global Constants
 # TOOLS: A list of required tools. Edit as required.
 
-declare -r TOOLS="git python3 pipenv"
+declare -r TOOLS="git python3 pipenv mysql"
 
 # Global Variables
 declare _confirm=1
