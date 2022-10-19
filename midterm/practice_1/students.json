@@ -1,0 +1,30 @@
+{
+  "class": "IT566",
+  "date": "2022-10-16",
+  "students": [
+    {
+      "name": "Jessie",
+      "age": 1
+    },
+    {
+      "name": "Sapna",
+      "age": 1
+    },
+    {
+      "name": "Coralie",
+      "age": 1
+    },
+    {
+      "name": "marni",
+      "age": 2
+    },
+    {
+      "name": "Hgdfh",
+      "age": 23
+    },
+    {
+      "name": "Marymount",
+      "age": 20
+    }
+  ]
+}
