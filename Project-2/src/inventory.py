@@ -6,6 +6,7 @@ from termcolor import cprint
 
 class Inventory:
     """Implements household inventory control features."""
+
     number_of_items = 0
 
     def __init__(self):

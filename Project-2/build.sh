@@ -43,9 +43,9 @@ display_usage() {
 	# shellcheck disable=SC2006
 	echo "           ./`basename "$0"` --runmain      		# pipenv run python3 src/main.py "
 	# shellcheck disable=SC2006
-	echo "           ./`basename "$0"` --runtests     		# pipevn run pytest "
+	echo "           ./`basename "$0"` --runtests     		# pipenv run pytest "
 	# shellcheck disable=SC2006
-	echo "           ./`basename "$0"` --check_doc_comments	# pipevn run pydocstyle src/ "
+	echo "           ./`basename "$0"` --check_doc_comments	# pipenv run pydocstyle src/ "
 }
 
 default_action() {
@@ -62,7 +62,7 @@ runmain() {
 }
 
 install() {
-	pipenv install
+	pipenv install pytest pydocstyle
 }
 
 check_doc_comments() {
