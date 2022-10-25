@@ -50,32 +50,47 @@ class Roster(object):
         self.clear_screen()
         if __debug__:
             print('new_roster() method called...')
+            # self.name = input("Enter the name of the roster:")
             self.roaster_type = input("Enter the type of roster:")
             self.sport = input("Enter the sport name:")
             self.country = input("Enter the name of the country:")
+            self.name = input("Enter the name of the member:")
+            self.age = int(input("Enter the age of the member:"))
 
-            with open("../data/team_roster.json", "r+") as rs:
-                try:
-                    old = json.load(rs)
-                except JSONDecodeError:
-                    old = {}
-                new = {'Type': self.roaster_type, 'Date': date.today().strftime("%Y-%m-%d"), 'Sport': self.sport,
-                       'Country': self.country, 'Members': []}
-                old.update(new)
-                rs.seek(0)
-                json.dump(old, rs, indent=2)
+            with open("../data/team_roster.json", "w+") as rs:
+                new = {'type': self.roaster_type, 'date': date.today().strftime("%Y-%m-%d"), 'sport': self.sport,
+                       'country': self.country, 'members': [{'name': self.name, 'age': self.age}]}
+                json.dump(new, rs, indent=2)
 
     def load_roster(self):
         """Load roster from file."""
         self.clear_screen()
         if __debug__:
             print('load_roster() method called...')
+            self.name = input("Enter the name of the member:")
+            self.age = int(input("Enter the age of the member:"))
+            with open("../data/team_roster.json", "r+") as rs:
+                data = json.load(rs)
+                data["members"].append({'name': self.name, 'age': self.age})
+                rs.seek(0)
+                json.dump(data, rs, indent=2)
 
     def print_roster(self):
         """Print roster."""
         self.clear_screen()
         if __debug__:
             print('print_roster() method called...')
+            with open("../data/team_roster.json", "r") as rs:
+                data = json.load(rs)
+                for key, value in data.items():
+                    if key != "members":
+                        print(f"{key}:{value}")
+                    else:
+                        print(f"{key}:")
+                        for i in range(len(value)):
+                            for key1, value1 in value[i].items():
+                                print(f"{key1}: {value1}")
+                            print("\n")
 
     def save_roster(self):
         """Save roster to file."""
