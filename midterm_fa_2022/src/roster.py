@@ -29,6 +29,7 @@ class Roster(object):
         self.country = None
         self.name = None
         self.age = None
+        self.data = None
 
     def clear_screen(self):
         os.system('clear')
@@ -50,7 +51,6 @@ class Roster(object):
         self.clear_screen()
         if __debug__:
             print('new_roster() method called...')
-            # self.name = input("Enter the name of the roster:")
             self.roaster_type = input("Enter the type of roster:")
             self.sport = input("Enter the sport name:")
             self.country = input("Enter the name of the country:")
@@ -67,13 +67,8 @@ class Roster(object):
         self.clear_screen()
         if __debug__:
             print('load_roster() method called...')
-            self.name = input("Enter the name of the member:")
-            self.age = int(input("Enter the age of the member:"))
-            with open("../data/team_roster.json", "r+") as rs:
-                data = json.load(rs)
-                data["members"].append({'name': self.name, 'age': self.age})
-                rs.seek(0)
-                json.dump(data, rs, indent=2)
+            with open("../data/team_roster.json", "r") as rs:
+                self.data = json.load(rs)
 
     def print_roster(self):
         """Print roster."""
@@ -81,8 +76,8 @@ class Roster(object):
         if __debug__:
             print('print_roster() method called...')
             with open("../data/team_roster.json", "r") as rs:
-                data = json.load(rs)
-                for key, value in data.items():
+                self.data = json.load(rs)
+                for key, value in self.data.items():
                     if key != "members":
                         print(f"{key}:{value}")
                     else:
@@ -97,9 +92,15 @@ class Roster(object):
         self.clear_screen()
         if __debug__:
             print('save_roster() method called...')
+            with open("../data/team_roster.json", "w") as rs:
+                json.dump(self.data, rs, indent=2)
+            print("roster is updated.")
 
     def add_members(self):
         """Add items to roster."""
         self.clear_screen()
         if __debug__:
             print('print_roster() method called...')
+            self.name = input("Enter the name of the member:")
+            self.age = int(input("Enter the age of the member:"))
+            self.data["members"].append({'name': self.name, 'age': self.age})
