@@ -5,16 +5,17 @@ from sql_test import SqlTest
 
 
 def main():
-	"""Execute main program."""
-	#password = getpass('Enter DB Password: ')
-	#password = None
-	db_test = SqlTest('localhost', 8889, 'home_inventory', 'veera', '12345678@Ss')
-	item = input("Item name: ")
-	count = input("Item count: ")
-	db_test.insert_item(item, int(count))
-	print(db_test.query_all())
+    """Execute main program."""
+    # password = getpass('Enter DB Password: ')
+    password = None
+    db_test = SqlTest('localhost', 8889, 'home_inventory', 'veera', password)
+    item = input("Item name: ")
+    count = input("Item count: ")
+    db_test.create_cursor()
+    db_test.insert_item(item, int(count))
+    print(db_test.query_all())
 
 
 # Call main() if this is the main execution module
 if __name__ == '__main__':
-	main()
+    main()

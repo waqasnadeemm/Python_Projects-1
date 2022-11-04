@@ -57,7 +57,7 @@ runtests() {
 }
 
 runmain() {
-	pipenv run python3 -O src/main.py
+	pipenv run python3 -O ./main.py
 }
 
 install() {
@@ -65,7 +65,7 @@ install() {
 }
 
 check_doc_comments() {
-	pipenv run pydocstyle src/
+	pipenv run pydocstyle ./library.py
 }
 
 

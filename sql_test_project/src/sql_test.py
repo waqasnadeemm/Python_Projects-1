@@ -20,7 +20,7 @@ class SqlTest:
 		self.SELECT_ALL = 'SELECT id, item, count FROM items'
 		self.INSERT = 'INSERT INTO items (item, count) VALUES(%s, %s)'
 
-	def insert_item(self, item, count):
+	def create_cursor(self):
 		try:
 			with connect(
 				host=self._db_host,
@@ -30,29 +30,46 @@ class SqlTest:
 				port=self._db_port
 			) as connection:
 				cursor = connection.cursor()
-				cursor.execute(self.INSERT, (item, count))
-				connection.commit() 	# Very important!
-				cursor.close()
+			return cursor
+
 		except Error as e:
 			print(e)
+
+	def insert_item(self, item, count):
+		# try:
+		# 	with connect(
+		# 		host=self._db_host,
+		# 		user=self._db_user_name,
+		# 		password=self._db_password,
+		# 		database=self._db_name,
+		# 		port=self._db_port
+		# 	) as connection:
+		# 		cursor = connection.cursor()
+		cursor = self.create_cursor()
+		print(cursor)
+		cursor.execute(self.INSERT, (item, count))
+		cursor.connection.commit() 	# Very important!
+		cursor.close()
+
+		# except Error as e:
+		# 	print(e)
 
 	def query_all(self):
 		results = None
-		try:
-			with connect(
-				host=self._db_host,
-				user=self._db_user_name,
-				password=self._db_password,
-				database=self._db_name,
-				port=self._db_port
-			) as connection:
-				cursor = connection.cursor()
-				cursor.execute(self.SELECT_ALL)
-				results = cursor.fetchall()
+		# try:
+		# 	with connect(
+		# 		host=self._db_host,
+		# 		user=self._db_user_name,
+		# 		password=self._db_password,
+		# 		database=self._db_name,
+		# 		port=self._db_port
+		# 	) as connection:
+		# 		cursor = connection.cursor()
+		cursor = self.create_cursor()
+		cursor.execute(self.SELECT_ALL)
+		results = cursor.fetchall()
 
-		except Error as e:
-			print(e)
+		# except Error as e:
+		# 	print(e)
 
 		return results
-
-

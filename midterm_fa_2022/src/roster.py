@@ -2,7 +2,6 @@
 import os
 from datetime import date
 import json
-from json import JSONDecodeError
 
 
 class Roster(object):

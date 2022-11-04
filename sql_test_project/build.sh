@@ -8,11 +8,11 @@
 #: Options      : None
 
 # Global Constants
-# TOOLS: A list of required tools. Edit as required. Sometoolnotinstalled to 
-#        show what a missing tool message looks like. 
+# TOOLS: A list of required tools. Edit as required. Sometoolnotinstalled to
+#        show what a missing tool message looks like.
 declare -r TOOLS="mysql git python3 pipenv"
 
-# Global Variables 
+# Global Variables
 declare _confirm=1
 
 
@@ -20,7 +20,8 @@ check_tools() { 	## Check if required tools are installed
 	echo "Checking for required tools..."
 	for tool in $TOOLS
 	do
-		command -v $tool &> /dev/null && ([ $_confirm -eq 1 ] && echo "$tool: OK" || true) || (echo "$tool: MISSING"; exit 1);
+		command -v $tool &> /dev/null && ([ $_confirm -eq 1 ] && echo "$tool: OK" || true) ||
+		                                 (echo "$tool: MISSING"; exit 1);
 	done
 }
 
@@ -29,7 +30,7 @@ display_usage() {
 	echo
 	echo "-----------------------------------------"
 	echo " Usage: ./`basename $0` [ --help | --checktools | no argument | --install | --runmain | --runtests ] "
-	echo 
+	echo
 	echo " Examples: ./`basename $0` --checktools   		# Show this usage message "
 	echo "           ./`basename $0` --help         		# Check for required tools "
 	echo "           ./`basename $0`                		# Default: -checktools and -help "
@@ -50,7 +51,15 @@ runtests() {
 }
 
 runmain() {
-	pipenv run python3 src/main.py
+    if [[ "$OSTYPE" == "linux-gnu"*  ]]; then  # Some flavor of Linux
+	    pipenv run python3 src/main.py
+    elif [[ "$OSTYPE" == "darwin"*  ]]; then   # MacOS
+        pipenv run python3 src/main.py
+    elif [[ "$OSTYPE" == "msys"* ]]; then	   # Windows via GitBash Terminal
+        pipenv run python src/main.py
+    else
+        echo "Unknown execution environment. Edit build.sh and add your os type to the runmain() method"
+    fi
 }
 
 install() {
@@ -71,7 +80,7 @@ initialize_database() {
 process_arguments() {
 	case $1 in
 		--help) # If first argument is '-help' call display_usage
-			display_usage 
+			display_usage
 			;;
 
 		--checktools) # Verify required development tools are installed
@@ -90,7 +99,7 @@ process_arguments() {
 			install
 			;;
 
-		--checkdoccomments) # Run pydocstyle to check doc comments 
+		--checkdoccomments) # Run pydocstyle to check doc comments
 			check_doc_comments
 			;;
 
@@ -98,8 +107,8 @@ process_arguments() {
 			initialize_database
 			;;
 
-		*) 	# Otherwise, call default_action with all arguments	
-			default_action $@
+		*) 	# Otherwise, call default_action with all arguments
+			default_action "$@"
 	esac
 }
 

@@ -1,29 +1,16 @@
 {
-  "type": "Team Roster",
+  "type": "team-members",
   "date": "2022-10-24",
-  "sport": "Curling",
+  "sport": "baseball",
   "country": "USA",
   "members": [
     {
-      "name": "Beth Biggsly",
-      "age": 35
+      "name": "veera",
+      "age": 24
     },
     {
-      "name": "Emanual Garcia",
-      "age": 22
-    },
-    {
-      "name": "Abeba Ajani",
-      "age": 28
-    },
-    {
-      "name": "Marie Bonnard du Parquet",
-      "age": 20
+      "name": "marni",
+      "age": 25
     }
-  ],
-  "Type": "team-roaster-1",
-  "Date": "2022-10-24",
-  "Sport": "baseball",
-  "Country": "usa",
-  "Members": []
+  ]
 }
