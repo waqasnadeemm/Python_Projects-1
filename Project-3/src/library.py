@@ -10,6 +10,7 @@ class Library:
         self.INSERT = '2'
         self.REMOVE = '3'
         self.PRINT = '4'
+        self.SEARCH = '5'
         self.EXIT = '0'
         self.choice = ''
         self.tab_name = ''
@@ -30,6 +31,7 @@ class Library:
         print('\t 2. Insert.')
         print('\t 3. Remove record.')
         print('\t 4. Print Inventory.')
+        print('\t 5. Search.')
         print('\t 0. Exit.')
 
         self.choice = input("\n Enter the operation number you want to perform: ")
@@ -68,11 +70,11 @@ class Library:
 
         for i in range(tab_count):
             self.tab_name = input(f"Enter the table-{i + 1} name: ").capitalize()
-            col_name = "count"
+            # col_name = "count"
             database = f"USE {self.db_name};"
             curs.execute(database)
             add_tab = f"CREATE TABLE IF NOT EXISTS {self.tab_name} " \
-                      f"({col_name} int(10) PRIMARY KEY AUTO_INCREMENT)"
+                      f"(`Id` INT(10) NOT NULL AUTO_INCREMENT PRIMARY KEY)"
             curs.execute(add_tab)
             curs.close()
             self.connect.close()
@@ -149,15 +151,14 @@ class Library:
             self.connect.reconnect()
             curs = self.connect.cursor()
 
-            for i in range(len(col_names[:])):
-                x = input(f"Enter the {col_names[i]}: ").capitalize()
+            for i in col_names[1:]:
+                x = input(f"Enter the {i}: ").capitalize()
                 det.append(x)
-                i += 1
             database = f"USE {self.db_name};"
             curs.execute(database)
             sql = f"""INSERT INTO {file_name}  """ \
-                  f"""({",".join(col_names[i] for i in range(len(col_names)))})""" \
-                  f""" VALUES ('{"','".join(det[i] for i in range(len(det)))}');"""
+                  f"""({",".join(i for i in col_names[1:])})""" \
+                  f""" VALUES ('{"','".join(i for i in det[:])}');"""
             curs.execute(sql)
             curs.close()
             self.connect.close()
@@ -205,7 +206,7 @@ class Library:
         columns = curs.fetchall()
         print(f"Columns in the table {file}:\n")
         i = 1
-        for column in columns[:]:
+        for column in columns[1:]:
             print(f"\t {i}. {column[0]}")
             i += 1
         col_name = input("Enter the column name you want to lookup: ").capitalize()
@@ -216,7 +217,7 @@ class Library:
         curs.execute(column)
         columns = curs.fetchall()
         col1 = []
-        for row in columns[:]:
+        for row in columns[1:]:
             col1 = row[0]
             break
         del_row = f"UPDATE {file} SET {col1} = '#' WHERE {col_name} = '{value}';"
@@ -263,6 +264,46 @@ class Library:
         except ConnectionError:
             print(f"{file} table doesn't exist.")
 
+    def search(self):
+        """
+        display the information of the looked up item
+
+        :return:
+        """
+        self.connect.reconnect()
+        curs = self.connect.cursor()
+        tb = f"SHOW TABLES FROM {self.db_name} ;"
+        curs.execute(tb)
+        tbs = curs.fetchall()
+        i = 1
+        print(f"\nTables in {self.db_name}: ")
+        for item in tbs[:]:
+            print(f"\t {i}. {item[0]}")
+            i += 1
+        print("\n")
+        file = input("Enter the table name to search: ").capitalize()
+        c_name = input("Enter the column name to lookup: ").capitalize()
+        search_key = input("Enter the value to search: ").capitalize()
+        try:
+            database = f"USE {self.db_name};"
+            curs.execute(database)
+            p = f" SELECT * FROM {file} where {c_name} = '{search_key}'"
+            curs.execute(p)
+            pp = curs.fetchall()
+            self.connect.close()
+            columns = []
+            self.connect.reconnect()
+            database = f"USE {self.db_name};"
+            curs.execute(database)
+            curs.execute(f" SHOW COLUMNS FROM {file}")
+            out = curs.fetchall()
+            for column in out[:]:
+                columns.append(column[0])
+            print(tabulate(pp, headers=columns, tablefmt='psql'))
+
+        except ConnectionError:
+            print(f"{file} table doesn't exist.")
+
     def purge(self):
         """
         Deletes the values selected in the remove function and closes the mysql connection
@@ -291,6 +332,8 @@ class Library:
                 self.remove()
             case self.PRINT:
                 self.print()
+            case self.SEARCH:
+                self.search()
             case self.EXIT:
                 self.purge()
                 return
