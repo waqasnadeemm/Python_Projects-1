@@ -1,6 +1,4 @@
-import maskpass as mp
 import mysql.connector
-# from mysql.connector import Error, connect
 from tabulate import tabulate
 
 
@@ -19,12 +17,12 @@ class Library:
 
         # connection to database
         self.connect = mysql.connector.connect(
-            host='localhost',
+            host='127.0.0.1',
             user='veera',
-            passwd=mp.askpass(prompt='Enter the password for user VEERA: '),
+            passwd='',
+            port=8889,
             autocommit=True,
-            )
-        print("")
+        )
 
     def display_menu(self):
         print(f'\n\t Details')
@@ -48,14 +46,12 @@ class Library:
         """
         try:
             print("Connection to MySQL DB successful")
-            # self.connect.reconnect()
             curs = self.connect.cursor()
             create_db = f"CREATE DATABASE IF NOT EXISTS {self.db_name};"
             curs.execute(create_db)
             print(f"{self.db_name} Database is created.")
             curs.fetchall()
             curs.close()
-            # self.connect.close()
         except ConnectionError as e:
             print(f"The Error is {e}")
 
@@ -71,13 +67,12 @@ class Library:
         print(f"The list of tables: ")
 
         for i in range(tab_count):
-            # self.connect.reconnect()
             self.tab_name = input(f"Enter the table-{i + 1} name: ").capitalize()
-            col_name, col_len = input("Enter the column name and column length: ").capitalize().split()
+            col_name = "count"
             database = f"USE {self.db_name};"
             curs.execute(database)
             add_tab = f"CREATE TABLE IF NOT EXISTS {self.tab_name} " \
-                      f"({col_name} CHAR({col_len}) NOT NULL)"
+                      f"({col_name} int(10) PRIMARY KEY AUTO_INCREMENT)"
             curs.execute(add_tab)
             curs.close()
             self.connect.close()
@@ -145,7 +140,6 @@ class Library:
                 print(f"\t {i}. {row[0]}")
                 col_names.append(row[0])
                 i += 1
-            # print(col_names[:])
         else:
             print("Entered table_name doesn't exist.")
 
@@ -154,7 +148,7 @@ class Library:
         while choice:
             self.connect.reconnect()
             curs = self.connect.cursor()
-            # i = 0
+
             for i in range(len(col_names[:])):
                 x = input(f"Enter the {col_names[i]}: ").capitalize()
                 det.append(x)
@@ -237,16 +231,24 @@ class Library:
 
         :return:
         """
+        self.connect.reconnect()
+        curs = self.connect.cursor()
+        tb = f"SHOW TABLES FROM {self.db_name} ;"
+        curs.execute(tb)
+        tbs = curs.fetchall()
+        i = 1
+        print(f"\nTables in {self.db_name}: ")
+        for item in tbs[:]:
+            print(f"\t {i}. {item[0]}")
+            i += 1
+        print("\n")
         file = input("Enter the table name: ").capitalize()
         try:
-            self.connect.reconnect()
-            curs = self.connect.cursor()
             database = f"USE {self.db_name};"
             curs.execute(database)
             p = f" SELECT * FROM {file}"
             curs.execute(p)
             pp = curs.fetchall()
-            # result = curs.fetchall()
             self.connect.close()
             columns = []
             self.connect.reconnect()
@@ -254,10 +256,8 @@ class Library:
             curs.execute(database)
             curs.execute(f" SHOW COLUMNS FROM {file}")
             out = curs.fetchall()
-            # print(out)
             for column in out[:]:
                 columns.append(column[0])
-            # print(columns)
             print(tabulate(pp, headers=columns, tablefmt='psql'))
 
         except ConnectionError:

@@ -15,6 +15,10 @@ declare -r TOOLS="git python3 pipenv mysql"
 # Global Variables
 declare _confirm=1
 
+# export PATH="/Applications/MAMP/library/bin":$PATH
+
+# shellcheck disable=SC2016
+
 check_tools() { 	## Check if required tools are installed
 	echo "Checking for required tools..."
 	for tool in $TOOLS
@@ -57,7 +61,7 @@ runtests() {
 }
 
 runmain() {
-	pipenv run python3 -O ./main.py
+	pipenv run python3 -O src/main.py
 }
 
 install() {
