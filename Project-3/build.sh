@@ -17,13 +17,10 @@ declare _confirm=1
 
 # export PATH="/Applications/MAMP/library/bin":$PATH
 
-# shellcheck disable=SC2016
-
 check_tools() { 	## Check if required tools are installed
 	echo "Checking for required tools..."
 	for tool in $TOOLS
 	do
-		# shellcheck disable=SC2015
 		command -v "$tool" &> /dev/null && ([ $_confirm -eq 1 ] && echo "$tool: OK" || true) || (echo "$tool: MISSING"; exit 1);
 	done
 }
@@ -32,22 +29,14 @@ check_tools() { 	## Check if required tools are installed
 display_usage() {
 	echo
 	echo "-----------------------------------------"
-	# shellcheck disable=SC2006
 	echo " Usage: ./`basename "$0"` [ --help | --check-tools | no argument | --install | --run-main | --runtests ] "
 	echo
-	# shellcheck disable=SC2006
 	echo " Examples: ./`basename "$0"` --checktools   		# Show this usage message "
-	# shellcheck disable=SC2006
 	echo "           ./`basename "$0"` --help         		# Check for required tools "
-	# shellcheck disable=SC2006
 	echo "           ./`basename "$0"`                		# Default: -check-tools and -help "
-	# shellcheck disable=SC2006
 	echo "           ./`basename "$0"` --install      		# pipenv install "
-	# shellcheck disable=SC2006
 	echo "           ./`basename "$0"` --runmain      		# pipenv run python3 src/main.py "
-	# shellcheck disable=SC2006
 	echo "           ./`basename "$0"` --runtests     		# pipenv run pytest "
-	# shellcheck disable=SC2006
 	echo "           ./`basename "$0"` --check_doc_comments	# pipenv run pydocstyle src/ "
 }
 

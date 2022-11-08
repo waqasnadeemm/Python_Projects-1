@@ -3,6 +3,9 @@ from tabulate import tabulate
 
 
 class Library:
+    """
+    Creates databases and tables based on user request.
+    """
 
     def __init__(self):
 
@@ -26,6 +29,11 @@ class Library:
         )
 
     def display_menu(self):
+        """
+        Shows the functions that we can perform.
+
+        :return:
+        """
         print(f'\n\t Details')
         print('\n\t 1. Create Table.')
         print('\t 2. Insert.')
