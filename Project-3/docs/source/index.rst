@@ -16,6 +16,7 @@ specification. To look into source code click on this link https://github.com/sm
    :maxdepth: 2
    :caption: Contents:
 
+   modules
 
 
 Indices and tables

@@ -6,9 +6,8 @@
 Welcome to Home-Inventory_database's documentation!
 ===================================================
 
-   This project will creates a database and stores the data given by the user in tables created by the
-   user's specification. To look into source code click on this
-   link https://github.com/smarni4/Python_Projects/tree/master/Project-3
+This project will creates a database and stores the data given by the user in tables created by the user's
+specification. To look into source code click on this link https://github.com/smarni4/Python_Projects/tree/master/Project-3
 
 .. note::
    This project is under active development.
@@ -17,6 +16,7 @@ Welcome to Home-Inventory_database's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   modules
 
 
 Indices and tables
