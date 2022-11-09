@@ -6,6 +6,8 @@
 
 ------->  Inserts data into respective tables.
 
+------->  Search for the data inside respective table.
+
 ------->  Removes data from respective tables.
 
 ------->  Display the tables in the database.
