@@ -20,8 +20,8 @@ check_tools() { 	## Check if required tools are installed
 	echo "Checking for required tools..."
 	for tool in $TOOLS
 	do
-		command -v $tool &> /dev/null && ([ $_confirm -eq 1 ] && echo "$tool: OK" || true) ||
-		                                 (echo "$tool: MISSING"; exit 1);
+		# shellcheck disable=SC2015
+		command -v "$tool" &> /dev/null && ([ $_confirm -eq 1 ] && echo "$tool: OK" || true) || (echo "$tool: MISSING"; exit 1);
 	done
 }
 
@@ -29,16 +29,25 @@ check_tools() { 	## Check if required tools are installed
 display_usage() {
 	echo
 	echo "-----------------------------------------"
-	echo " Usage: ./`basename $0` [ --help | --checktools | no argument | --install | --runmain | --runtests ] "
+	# shellcheck disable=SC2006
+	echo " Usage: ./`basename "$0"` [ --help | --checktools | no argument | --install | --runmain | --runtests ] "
 	echo
-	echo " Examples: ./`basename $0` --checktools   		# Show this usage message "
-	echo "           ./`basename $0` --help         		# Check for required tools "
-	echo "           ./`basename $0`                		# Default: -checktools and -help "
-	echo "           ./`basename $0` --install      		# pipenv install "
-	echo "           ./`basename $0` --runmain      		# pipenv run python3 src/main.py "
-	echo "           ./`basename $0` --runtests     		# pipenv run pytest "
-	echo "           ./`basename $0` --checkdoccomments	# pipevn run pydocstyle src/ "
-	echo "           ./`basename $0` --initialize_database	# source database/initialize_database.sh "
+	# shellcheck disable=SC2006
+	echo " Examples: ./`basename "$0"` --checktools   		# Show this usage message "
+	# shellcheck disable=SC2006
+	echo "           ./`basename "$0"` --help         		# Check for required tools "
+	# shellcheck disable=SC2006
+	echo "           ./`basename "$0"`                		# Default: -checktools and -help "
+	# shellcheck disable=SC2006
+	echo "           ./`basename "$0"` --install      		# pipenv install "
+	# shellcheck disable=SC2006
+	echo "           ./`basename "$0"` --runmain      		# pipenv run python3 src/main.py "
+	# shellcheck disable=SC2006
+	echo "           ./`basename "$0"` --runtests     		# pipenv run pytest "
+	# shellcheck disable=SC2006
+	echo "           ./`basename "$0"` --checkdoccomments	# pipevn run pydocstyle src/ "
+	# shellcheck disable=SC2006
+	echo "           ./`basename "$0"` --initialize_database	# source database/initialize_database.sh "
 }
 
 default_action() {
@@ -71,8 +80,10 @@ check_doc_comments() {
 }
 
 initialize_database() {
+	# shellcheck disable=SC2164
 	cd database
 	source initialize_database.sh
+	# shellcheck disable=SC2103
 	cd ..
 }
 

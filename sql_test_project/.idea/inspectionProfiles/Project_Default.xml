@@ -24,6 +24,7 @@
           <option value="_dict_keys.sort" />
           <option value="src.main.self" />
           <option value="set.__add__" />
+          <option value="src.sql_test.create_cursor.connection" />
         </list>
       </option>
     </inspection_tool>
