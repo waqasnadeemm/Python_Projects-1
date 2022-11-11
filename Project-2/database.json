@@ -1,12 +1,24 @@
 {
-  "Name": "Home",
-  "Date Modified": "11-07-22",
+  "Name": "Home_inventory",
+  "Date Modified": "11/10/22",
   "Items": {
-    "1": {
-      "Item Name": "Table",
-      "Room": "Work space",
+    "1001": {
+      "Item Name": "Work_table",
+      "Room": "Work_space",
       "Item Price": 350,
-      "Item Quantity": 1
+      "Item Quantity": 2
+    },
+    "1002": {
+      "Item Name": "Desktop",
+      "Room": "Workspace",
+      "Item Price": 500,
+      "Item Quantity": 3
+    },
+    "1003": {
+      "Item Name": "Desktop",
+      "Room": "Office",
+      "Item Price": 600,
+      "Item Quantity": 5
     }
   }
 }

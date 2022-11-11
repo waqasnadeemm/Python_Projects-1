@@ -29,7 +29,7 @@ class Inventory:
         self.item_num = None
 
         # Dictionary
-        self.new = {}
+        self.new = {}  # It creates a new dictionary.
 
     def __str__(self):  # magic method
         return f"\tItem added lastly \n-----> {self.item_num} - {self.item_name}."
@@ -76,7 +76,7 @@ class Inventory:
     @decorator1
     def new_inventory(self):
         """Create new inventory."""
-        # new = {}
+
         self.new["Name"] = input("Enter the name of the inventory: ").capitalize()
         self.new["Date Modified"] = date.today().strftime("%m-%d-%y")
         print('new_inventory() method called...')
@@ -184,7 +184,7 @@ class Inventory:
         for key, value in data["Items"].items():
 
             if item == value["Item Name"]:
-                count += value["Item Quantity"]
+                count += value["Item Quantity"]     # count = count + value["Item Quantity"]
             else:
                 pass
             i += 1
