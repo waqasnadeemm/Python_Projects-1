@@ -31,6 +31,7 @@ class Library:
             )
         except mysql.connector.errors.InterfaceError as e:
             print(f"Connect to mamp before trying...\n {e}")
+            exit()
 
     def display_menu(self):
         """
@@ -149,14 +150,15 @@ class Library:
                         curs.close()
                         self.connect.close()
                     except ValueError:
-                        print("Table created")
+                        print("\nTable created")
                         database = f"USE {self.db_name};"
                         curs.execute(database)
                         show_tab = "SHOW TABLES;"
                         curs.execute(show_tab)
                         tab = curs.fetchall()
                         for table in tab[:]:
-                            print(table[0])
+                            print(f'\t {i+1}. {table[0]}')
+                            i += 1
                         break
                 i += 1
 
@@ -169,79 +171,84 @@ class Library:
         :input: data you want to insert into table
         :return: adds the data given by user into respective tables
         """
-        self.connect.reconnect()
-        curs = self.connect.cursor()
-        print("\nSelect the table you want to edit: \n")
-        tb = f"SHOW TABLES FROM {self.db_name} ;"
-        curs.execute(tb)
-        tbs = curs.fetchall()
-        curs.close()
-        self.connect.cursor()
-        tables = []
-        i = 1
-        for item in tbs[:]:
-            print(f"\t {i}. {item[0]}")
-            tables.append(item[0])
-            i += 1
-        print("\n")
-        file_name = input("Enter the name of the table: ").capitalize()
-        col_names = []
-        if file_name in tables[:]:
-            print(f"\n\tColumn Names in {file_name} table. \n")
+        try:
             self.connect.reconnect()
             curs = self.connect.cursor()
-            database = f"USE {self.db_name};"
-            curs.execute(database)
-            column = f"SHOW COLUMNS FROM {file_name}; "
-            curs.execute(column)
-            result = curs.fetchall()
+            print("\nSelect the table you want to edit: \n")
+            tb = f"SHOW TABLES FROM {self.db_name} ;"
+            curs.execute(tb)
+            tbs = curs.fetchall()
             curs.close()
-            self.connect.close()
+            self.connect.cursor()
+            tables = []
             i = 1
-            for row in result[:]:
-                print(f"\t {i}. {row[0]}")
-                col_names.append(row[0])
+            for item in tbs[:]:
+                print(f"\t {i}. {item[0]}")
+                tables.append(item[0])
                 i += 1
-        else:
-            print("Entered table_name doesn't exist.")
-
-        det = []
-        choice = True
-        while choice:
-            self.connect.reconnect()
-            curs = self.connect.cursor()
-
-            for i in col_names[1:]:
-                x = input(f"Enter the {i}: ").capitalize()
-                det.append(x)
-            database = f"USE {self.db_name};"
-            curs.execute(database)
-            sql = f"""INSERT INTO {file_name}  """ \
-                  f"""({",".join(i for i in col_names[1:])})""" \
-                  f""" VALUES ('{"','".join(i for i in det[:])}');"""
-            curs.execute(sql)
-            curs.close()
-            self.connect.close()
-            ch = input("More entries (Y/n):").lower()
-            if ch == 'y':
-                choice = True
-                det.clear()
-            elif ch == 'n':
-                choice = False
-                print("Data Inserted.")
+            print("\n")
+            file_name = input("Enter the name of the table: ").capitalize()
+            col_names = []
+            if file_name in tables[:]:
+                print(f"\n\tColumn Names in {file_name} table. \n")
                 self.connect.reconnect()
                 curs = self.connect.cursor()
                 database = f"USE {self.db_name};"
                 curs.execute(database)
-                data = f"SELECT * FROM {file_name};"
-                curs.execute(data)
-                tb_data = curs.fetchall()
-                for row in tb_data[:]:
-                    print(row)
+                column = f"SHOW COLUMNS FROM {file_name}; "
+                curs.execute(column)
+                result = curs.fetchall()
+                curs.close()
+                self.connect.close()
+                i = 1
+                for row in result[:]:
+                    print(f"\t {i}. {row[0]}")
+                    col_names.append(row[0])
+                    i += 1
+            else:
+                print("Entered table_name doesn't exist.")
+
+            det = []
+            choice = True
+            while choice:
+                self.connect.reconnect()
+                curs = self.connect.cursor()
+
+                for i in col_names[1:]:
+                    x = input(f"Enter the {i}: ").capitalize()
+                    det.append(x)
+                database = f"USE {self.db_name};"
+                curs.execute(database)
+                sql = f"""INSERT INTO {file_name}  """ \
+                      f"""({",".join(i for i in col_names[1:])})""" \
+                      f""" VALUES ('{"','".join(i for i in det[:])}');"""
+                curs.execute(sql)
+                curs.close()
+                self.connect.close()
+                ch = input("More entries (Y/n):").lower()
+                if ch == 'y':
+                    choice = True
+                    det.clear()
+                elif ch == 'n':
+                    choice = False
+                    print("Data Inserted.")
+                    self.connect.reconnect()
+                    curs = self.connect.cursor()
+                    database = f"USE {self.db_name};"
+                    curs.execute(database)
+                    data = f"SELECT * FROM {file_name};"
+                    curs.execute(data)
+                    tb_data = curs.fetchall()
+                    for row in tb_data[:]:
+                        print(row)
+
+        except mysql.connector.errors.ProgrammingError:
+            pass
 
     def remove(self):
         """
-        Removes the selected value by changing the column 1 value to the # and deletes when existing from the database.
+        Removes the selected value by changing the selected column value to the #
+        and deletes when existing from the database.
 
         :param: None
         :input: table name
@@ -315,9 +322,9 @@ class Library:
             print(f"\t {i}. {item[0]}")
             i += 1
         print("\n")
-        file = input("Enter the table name or all to print all tables: ").capitalize()
+        file = input("Enter the table name or 1 to print all tables: ").capitalize()
 
-        if file == 'All':
+        if file == '1':
             database = f"use {self.db_name};"
             curs.execute(database)
             for item in tbs[:]:
@@ -365,7 +372,7 @@ class Library:
 
         :param: None
         :input: table name to lookup
-        :input: value to get looked
+        :input: value to look
         :return: shows the requested value information if exist
         """
         self.connect.reconnect()
