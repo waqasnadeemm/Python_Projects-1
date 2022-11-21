@@ -1,8 +1,12 @@
 from library import Library
-# import table
 
 
 def main():
+    """
+    This is the main module of the project, from where we run the code.
+
+    :return: performs the task according to the user input.
+    """
     lib = Library()
 
     lib.display_menu()

@@ -17,22 +17,27 @@ class Library:
         self.EXIT = '0'
         self.choice = ''
         self.tab_name = ''
-        self.db_name = input('Enter the database name: ').capitalize()
+        self.db_name = 'Home_inventory'
 
         # connection to database
-        self.connect = mysql.connector.connect(
-            host='127.0.0.1',
-            user='veera',
-            passwd='',
-            port=8889,
-            autocommit=True,
-        )
+        try:
+            self.connect = mysql.connector.connect(
+                host='127.0.0.1',
+                user='veera',
+                passwd='',
+                port=8889,
+                autocommit=True,
+                db=self.db_name
+            )
+        except mysql.connector.errors.InterfaceError as e:
+            print(f"Connect to mamp before trying...\n {e}")
 
     def display_menu(self):
         """
         Shows the functions that we can perform.
 
-        :return:
+        :input: takes an integer and performs respective operation
+        :return: None
         """
         print(f'\n\t Details')
         print('\n\t 1. Create Table.')
@@ -69,53 +74,100 @@ class Library:
         """
         Creates required tables with column names given by the user.
 
-        :return:
+        :param: None
+        :input: Number of tables
+        :input: Name of the table
+        :input: column names
+        :return: creates a new table with given name and column names
         """
         self.connect.reconnect()
         curs = self.connect.cursor()
         tab_count = int(input("Enter number of tables you want to create: "))
-        print(f"The list of tables: ")
 
         for i in range(tab_count):
-            self.tab_name = input(f"Enter the table-{i + 1} name: ").capitalize()
-            # col_name = "count"
-            database = f"USE {self.db_name};"
-            curs.execute(database)
-            add_tab = f"CREATE TABLE IF NOT EXISTS {self.tab_name} " \
-                      f"(`Id` INT(10) NOT NULL AUTO_INCREMENT PRIMARY KEY)"
-            curs.execute(add_tab)
-            curs.close()
-            self.connect.close()
-            while True:
-                self.connect.reconnect()
-                curs = self.connect.cursor()
-                try:
-                    col_name1, col_len1 = input("Enter the column name and column length: ").capitalize().split()
-                    database = f"USE {self.db_name};"
-                    curs.execute(database)
-                    if col_name1 != '':
-                        add_tab = f" ALTER TABLE {self.tab_name} " \
-                                  f"ADD {col_name1} CHAR({col_len1}) NOT NULL"
-                    curs.execute(add_tab)
-                    curs.close()
-                    self.connect.close()
-                except ValueError:
-                    print("Table created")
-                    database = f"USE {self.db_name};"
-                    curs.execute(database)
-                    show_tab = "SHOW TABLES;"
-                    curs.execute(show_tab)
-                    tab = curs.fetchall()
-                    for table in tab[:]:
-                        print(table[0])
-                    break
-            i += 1
+            choice = input(" Enter 1 to create a parent table or 2 to create a child table: ")
+            if choice == '1':
+                self.tab_name = input(f"Enter the table-{i + 1} name: ").capitalize()
+                col_name = input("Enter the primary key column name: ")
+                database = f"USE {self.db_name};"
+                curs.execute(database)
+                add_tab = f"CREATE TABLE IF NOT EXISTS {self.tab_name} " \
+                          f"(`{col_name}` INT(10) AUTO_INCREMENT NOT NULL PRIMARY KEY) AUTO_INCREMENT=1000"
+                curs.execute(add_tab)
+                curs.close()
+                self.connect.close()
+                while True:
+                    self.connect.reconnect()
+                    curs = self.connect.cursor()
+                    try:
+                        col_name1, col_len1 = input("Enter the column name and column length: ").capitalize().split()
+                        database = f"USE {self.db_name};"
+                        curs.execute(database)
+                        if col_name1 != '':
+                            add_tab = f" ALTER TABLE {self.tab_name} " \
+                                      f"ADD {col_name1} CHAR({col_len1}) NOT NULL"
+                        curs.execute(add_tab)
+                        curs.close()
+                        self.connect.close()
+                    except ValueError:
+                        print("Table created")
+                        database = f"USE {self.db_name};"
+                        curs.execute(database)
+                        show_tab = "SHOW TABLES;"
+                        curs.execute(show_tab)
+                        tab = curs.fetchall()
+                        for table in tab[:]:
+                            print(table[0])
+                        break
+                i += 1
+            elif choice == '2':
+                self.tab_name = input(f"Enter the table-{i + 1} name: ").capitalize()
+                parent_table = input("Enter the parent table name: ").capitalize()
+                col_name = input("Enter the primary key column name: ")
+                foreign_key = input("Enter the foreign key column name: ").capitalize()
+                database = f"USE {self.db_name};"
+                curs.execute(database)
+
+                add_tab = f"CREATE TABLE IF NOT EXISTS {self.tab_name} " \
+                          f"(`{col_name}` INT(10) NOT NULL AUTO_INCREMENT PRIMARY KEY, " \
+                          f"{foreign_key} INT(10)," \
+                          f" FOREIGN KEY ({foreign_key}) REFERENCES `{parent_table}`(`{foreign_key}`));"
+                curs.execute(add_tab)
+                curs.close()
+                self.connect.close()
+                while True:
+                    self.connect.reconnect()
+                    curs = self.connect.cursor()
+                    try:
+                        col_name1, col_len1 = input("Enter the column name and column length: ").capitalize().split()
+                        database = f"USE {self.db_name};"
+                        curs.execute(database)
+                        if col_name1 != '':
+                            add_tab = f" ALTER TABLE {self.tab_name} " \
+                                      f"ADD {col_name1} CHAR({col_len1}) NOT NULL"
+                        curs.execute(add_tab)
+                        curs.close()
+                        self.connect.close()
+                    except ValueError:
+                        print("Table created")
+                        database = f"USE {self.db_name};"
+                        curs.execute(database)
+                        show_tab = "SHOW TABLES;"
+                        curs.execute(show_tab)
+                        tab = curs.fetchall()
+                        for table in tab[:]:
+                            print(table[0])
+                        break
+                i += 1
 
     def insert(self):
         """
         Inserts the data into the tables.
 
-        :return:
+        :param: None
+        :input: table name
+        :input: data you want to insert into table
+        :return: adds the data given by user into respective tables
         """
         self.connect.reconnect()
         curs = self.connect.cursor()
@@ -191,7 +243,11 @@ class Library:
         """
         Removes the selected value by changing the column 1 value to the # and deletes when existing from the database.
 
-        :return:
+        :param: None
+        :input: table name
+        :input: column name to lookup
+        :input: value to be deleted
+        :return: changes the value of selected column in selected table to # and deletes it when user entered 0.
         """
         self.connect.reconnect()
         curs = self.connect.cursor()
@@ -207,76 +263,110 @@ class Library:
             print(f"\t {i}. {item[0]}")
             i += 1
         print("\n")
-        file = input("Enter the name of the table: ").capitalize()
-
-        column = f"SHOW COLUMNS from {file}"
-        curs.execute(column)
-        columns = curs.fetchall()
-        print(f"Columns in the table {file}:\n")
-        i = 1
-        for column in columns[1:]:
-            print(f"\t {i}. {column[0]}")
-            i += 1
-        col_name = input("Enter the column name you want to lookup: ").capitalize()
-        value = str(input("Enter the value you want to delete: ")).capitalize()
-        database = f"USE {self.db_name};"
-        curs.execute(database)
-        column = f"SHOW COLUMNS from {file}"
-        curs.execute(column)
-        columns = curs.fetchall()
-        col1 = []
-        for row in columns[1:]:
-            col1 = row[0]
-            break
-        del_row = f"UPDATE {file} SET {col1} = '#' WHERE {col_name} = '{value}';"
-        curs.execute(del_row)
-        print("Successfully added to delete after exit")
-        curs.close()
-        self.connect.close()
+        choice = input("Enter 1 if you want to delete table or other key to remove record from table: ")
+        if choice == '1':
+            table_name = input("Enter the table name you want to delete: ").capitalize()
+            table = f"DROP TABLE {table_name}"
+            curs.execute(table)
+        else:
+            file = input("Enter the name of the table: ").capitalize()
+            column = f"SHOW COLUMNS from {file}"
+            curs.execute(column)
+            columns = curs.fetchall()
+            print(f"Columns in the table {file}:\n")
+            i = 1
+            for column in columns[1:]:
+                print(f"\t {i}. {column[0]}")
+                i += 1
+            col_name = input("Enter the column name you want to lookup: ").capitalize()
+            value = str(input("Enter the value you want to delete: ")).capitalize()
+            database = f"USE {self.db_name};"
+            curs.execute(database)
+            column = f"SHOW COLUMNS from {file}"
+            curs.execute(column)
+            columns = curs.fetchall()
+            col1 = []
+            for row in columns[1:]:
+                col1 = row[0]
+                break
+            del_row = f"UPDATE {file} SET {col1} = '#' WHERE {col_name} = '{value}';"
+            curs.execute(del_row)
+            print("Successfully added to delete after exit")
+            curs.close()
+            self.connect.close()
 
     def print(self):
         """
         Displays the tables in the database.
 
-        :return:
+        :param: None
+        :input: table name you want to print
+        :return: shows the data inside the tables based on the user input
         """
         self.connect.reconnect()
         curs = self.connect.cursor()
         tb = f"SHOW TABLES FROM {self.db_name} ;"
         curs.execute(tb)
         tbs = curs.fetchall()
-        i = 1
+        i = 2
         print(f"\nTables in {self.db_name}: ")
+        print(f'\n\t 1. ALL_TABLES')
         for item in tbs[:]:
             print(f"\t {i}. {item[0]}")
             i += 1
         print("\n")
-        file = input("Enter the table name: ").capitalize()
-        try:
-            database = f"USE {self.db_name};"
-            curs.execute(database)
-            p = f" SELECT * FROM {file}"
-            curs.execute(p)
-            pp = curs.fetchall()
-            self.connect.close()
-            columns = []
-            self.connect.reconnect()
-            database = f"USE {self.db_name};"
-            curs.execute(database)
-            curs.execute(f" SHOW COLUMNS FROM {file}")
-            out = curs.fetchall()
-            for column in out[:]:
-                columns.append(column[0])
-            print(tabulate(pp, headers=columns, tablefmt='psql'))
+        file = input("Enter the table name or all to print all tables: ").capitalize()
 
-        except ConnectionError:
-            print(f"{file} table doesn't exist.")
+        if file == 'All':
+            database = f"use {self.db_name};"
+            curs.execute(database)
+            for item in tbs[:]:
+                print(f'\n****** {item[0]} ******')
+                p = f'SELECT * FROM {item[0]};'
+                curs.execute(p)
+                pp = curs.fetchall()
+                self.connect.close()
+                columns = []
+                self.connect.reconnect()
+                database = f"USE {self.db_name};"
+                curs.execute(database)
+                curs.execute(f"SHOW COLUMNS FROM {item[0]};")
+                out = curs.fetchall()
+                for column in out[:]:
+                    columns.append(column[0])
+                print(tabulate(pp, headers=columns, tablefmt='psql'))
+        else:
+            try:
+                database = f"USE {self.db_name};"
+                curs.execute(database)
+                p = f" SELECT * FROM {file};"
+                curs.execute(p)
+                pp = curs.fetchall()
+                self.connect.close()
+                columns = []
+                self.connect.reconnect()
+                database = f"USE {self.db_name};"
+                curs.execute(database)
+                curs.execute(f"SHOW COLUMNS FROM {file}")
+                out = curs.fetchall()
+                for column in out[:]:
+                    columns.append(column[0])
+                print(tabulate(pp, headers=columns, tablefmt='psql'))
+
+            except ConnectionError:
+                print(f"{file} table doesn't exist.")
+
+            except mysql.connector.errors.ProgrammingError:
+                print("\n**************Enter the existed table name.***************")
 
     def search(self):
         """
         display the information of the looked up item
 
-        :return:
+        :param: None
+        :input: table name to lookup
+        :input: value to get looked
+        :return: shows the requested value information if exist
         """
         self.connect.reconnect()
         curs = self.connect.cursor()
@@ -315,8 +405,9 @@ class Library:
     def purge(self):
         """
         Deletes the values selected in the remove function and closes the mysql connection
-
-        :return:
+        :param: None
+        :input: table name and column name to lookup for deletion
+        :return: closes the connection with mysql database
         """
         self.connect.connect()
         curs = self.connect.cursor()
@@ -330,6 +421,11 @@ class Library:
             print("\n Connection Disabled successfully")
 
     def application(self):
+        """
+        Runs the application until user enters 0.
+
+        :return: create, insert, or delete based on the user input
+        """
         match self.choice:
             case self.CREATE_TABLE:
                 self.create_database()

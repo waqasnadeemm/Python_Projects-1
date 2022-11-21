@@ -34,9 +34,6 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
           <a href="main.html" title="main module"
              accesskey="N">next</a> |</li>
         <li class="right" >
@@ -53,123 +50,8 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <section id="module-library">
-<span id="library-module"></span><h1>library module<a class="headerlink" href="#module-library" title="Permalink to this heading">¶</a></h1>
-<dl class="py class">
-<dt class="sig sig-object py" id="library.Library">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">library.</span></span><span class="sig-name descname"><span class="pre">Library</span></span><a class="headerlink" href="#library.Library" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Creates databases and tables based on user request.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="library.Library.application">
-<span class="sig-name descname"><span class="pre">application</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#library.Library.application" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="library.Library.create_database">
-<span class="sig-name descname"><span class="pre">create_database</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#library.Library.create_database" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create a database with given name or open the database if it’s already exists.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Param<span class="colon">:</span></dt>
-<dd class="field-odd"><p>None</p>
-</dd>
-<dt class="field-even">Input<span class="colon">:</span></dt>
-<dd class="field-even"><p>Name of the database</p>
-</dd>
-<dt class="field-odd">Input type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>list[str] or None</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>creates database</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>str</p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>Library.InvalidKindError</strong> – If the kind is invalid.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="library.Library.create_table">
-<span class="sig-name descname"><span class="pre">create_table</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#library.Library.create_table" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates required tables with column names given by the user.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="library.Library.display_menu">
-<span class="sig-name descname"><span class="pre">display_menu</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#library.Library.display_menu" title="Permalink to this definition">¶</a></dt>
-<dd><p>Shows the functions that we can perform.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="library.Library.insert">
-<span class="sig-name descname"><span class="pre">insert</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#library.Library.insert" title="Permalink to this definition">¶</a></dt>
-<dd><p>Inserts the data into the tables.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="library.Library.print">
-<span class="sig-name descname"><span class="pre">print</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#library.Library.print" title="Permalink to this definition">¶</a></dt>
-<dd><p>Displays the tables in the database.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="library.Library.purge">
-<span class="sig-name descname"><span class="pre">purge</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#library.Library.purge" title="Permalink to this definition">¶</a></dt>
-<dd><p>Deletes the values selected in the remove function and closes the mysql connection</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="library.Library.remove">
-<span class="sig-name descname"><span class="pre">remove</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#library.Library.remove" title="Permalink to this definition">¶</a></dt>
-<dd><p>Removes the selected value by changing the column 1 value to the # and deletes when existing from the database.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="library.Library.search">
-<span class="sig-name descname"><span class="pre">search</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#library.Library.search" title="Permalink to this definition">¶</a></dt>
-<dd><p>display the information of the looked up item</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p></p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
+  <section id="library-module">
+<h1>library module<a class="headerlink" href="#library-module" title="Permalink to this heading">¶</a></h1>
 </section>
 
 
@@ -179,27 +61,6 @@
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <div>
-    <h3><a href="index.html">Table of Contents</a></h3>
-    <ul>
-<li><a class="reference internal" href="#">library module</a><ul>
-<li><a class="reference internal" href="#library.Library"><code class="docutils literal notranslate"><span class="pre">Library</span></code></a><ul>
-<li><a class="reference internal" href="#library.Library.application"><code class="docutils literal notranslate"><span class="pre">Library.application()</span></code></a></li>
-<li><a class="reference internal" href="#library.Library.create_database"><code class="docutils literal notranslate"><span class="pre">Library.create_database()</span></code></a></li>
-<li><a class="reference internal" href="#library.Library.create_table"><code class="docutils literal notranslate"><span class="pre">Library.create_table()</span></code></a></li>
-<li><a class="reference internal" href="#library.Library.display_menu"><code class="docutils literal notranslate"><span class="pre">Library.display_menu()</span></code></a></li>
-<li><a class="reference internal" href="#library.Library.insert"><code class="docutils literal notranslate"><span class="pre">Library.insert()</span></code></a></li>
-<li><a class="reference internal" href="#library.Library.print"><code class="docutils literal notranslate"><span class="pre">Library.print()</span></code></a></li>
-<li><a class="reference internal" href="#library.Library.purge"><code class="docutils literal notranslate"><span class="pre">Library.purge()</span></code></a></li>
-<li><a class="reference internal" href="#library.Library.remove"><code class="docutils literal notranslate"><span class="pre">Library.remove()</span></code></a></li>
-<li><a class="reference internal" href="#library.Library.search"><code class="docutils literal notranslate"><span class="pre">Library.search()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-  </div>
   <div>
     <h4>Previous topic</h4>
     <p class="topless"><a href="modules.html"
@@ -237,9 +98,6 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
         <li class="right" >
           <a href="main.html" title="main module"
              >next</a> |</li>
