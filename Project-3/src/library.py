@@ -424,7 +424,7 @@ class Library:
         """
         Runs the application until user enters 0.
 
-        :return: create, insert, or delete based on the user input
+        :return: create, insert, or delete databases or tables based on the user input
         """
         match self.choice:
             case self.CREATE_TABLE:
