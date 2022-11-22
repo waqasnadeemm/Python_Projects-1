@@ -40,7 +40,7 @@ class Library:
         :input: takes an integer and performs respective operation
         :return: None
         """
-        print(f'\n\t Details')
+        print(f'\n\t Home Inventory Database')
         print('\n\t 1. Create Table.')
         print('\t 2. Insert.')
         print('\t 3. Remove record.')
