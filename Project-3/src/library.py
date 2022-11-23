@@ -3,6 +3,7 @@
 import mysql.connector
 from tabulate import tabulate
 from datetime import date
+import os
 
 
 class Library:
@@ -21,7 +22,7 @@ class Library:
         self.tab_name = ''
         self.db_name = 'Home_inventory'
         self.date = date.today()
-        # print(self.date)
+        self.clear = lambda: os.system('clear')
 
         # connection to database
         try:
@@ -47,6 +48,7 @@ class Library:
         :input: takes an integer and performs respective operation
         :return: None
         """
+
         print(f'\n\t {self.db_name} Database')
         print('\n\t 1. Create Table.')
         print('\t 2. Create Inventory.')
@@ -68,6 +70,7 @@ class Library:
         :return type: str
         :raise Library.InvalidKindError: If the kind is invalid.
         """
+        self.clear()
         try:
             print("Connection to MySQL DB successful")
             curs = self.connect.cursor()
@@ -189,6 +192,7 @@ class Library:
         :input: Description of the inventory we created.
         :return: Add the name and description of the created inventory to the inventories table.
         """
+
         try:
             self.connect.reconnect()
             curs = self.connect.cursor()
@@ -228,6 +232,7 @@ class Library:
         :input: data you want to insert into table
         :return: adds the data given by user into respective tables
         """
+        self.clear()
         try:
             self.connect.reconnect()
             curs = self.connect.cursor()
@@ -349,7 +354,7 @@ class Library:
                 columns = curs.fetchall()
                 print(f"\nColumns in the table {file}:\n")
                 i = 1
-                for column in columns[1:]:
+                for column in columns[2:]:
                     print(f"\t {i}. {column[0]}")
                     i += 1
                 col_name = input("Enter the column name you want to lookup: ").capitalize()
@@ -360,7 +365,7 @@ class Library:
                 curs.execute(column)
                 columns = curs.fetchall()
                 col1 = []
-                for row in columns[1:]:
+                for row in columns[2:]:
                     col1 = row[0]
                     break
                 del_row = f"UPDATE {file} SET {col1} = '#' WHERE {col_name} = '{value}';"
@@ -379,6 +384,7 @@ class Library:
         :input: table name you want to print
         :return: shows the data inside the tables based on the user input
         """
+        self.clear()
         self.connect.reconnect()
         curs = self.connect.cursor()
         tb = f"SHOW TABLES FROM {self.db_name} ;"
@@ -496,9 +502,11 @@ class Library:
         try:
             file, col = input("Enter the file name and column name to delete selected files: ").split()
             curs.execute(f"DELETE FROM {file} WHERE {col} LIKE '%#%';")
-            print("\n Deleted and disabled connection successfully ")
+            print("\n Deleted and disabled connection successfully \n ")
         except ValueError:
-            print("\n Connection Disabled successfully")
+            print("\n Connection Disabled successfully \n")
+        except mysql.connector.errors.ProgrammingError:
+            print("\n Connection Disabled successfully \n")
 
     def application(self):
         """
