@@ -55,10 +55,11 @@ runmain() {
 
 install() {
 	pipenv install pytest pydocstyle mysql tabulate maskpass
+	pipenv install sphinx-press-theme
 }
 
 check_doc_comments() {
-	pipenv run pydocstyle ./library.py
+	pipenv run pydocstyle ~/Desktop/Git/Python_Projects/Project-3/src/library.py
 }
 
 

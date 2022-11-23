@@ -1,23 +1,27 @@
+"""Create mysql connection and inserts data into respective tables."""
+# global
 import mysql.connector
 from tabulate import tabulate
+from datetime import date
 
 
 class Library:
-    """
-    Creates databases and tables based on user request.
-    """
+    """Creates databases and tables based on user request."""
 
     def __init__(self):
-
+        """Initialize the mysql connection."""
         self.CREATE_TABLE = '1'
-        self.INSERT = '2'
-        self.REMOVE = '3'
-        self.PRINT = '4'
-        self.SEARCH = '5'
+        self.CREATE_Inventory = '2'
+        self.INSERT = '3'
+        self.REMOVE = '4'
+        self.PRINT = '5'
+        self.SEARCH = '6'
         self.EXIT = '0'
         self.choice = ''
         self.tab_name = ''
         self.db_name = 'Home_inventory'
+        self.date = date.today()
+        # print(self.date)
 
         # connection to database
         try:
@@ -33,19 +37,23 @@ class Library:
             print(f"Connect to mamp before trying...\n {e}")
             exit()
 
+        # creating database
+        self.create_database()
+
     def display_menu(self):
         """
-        Shows the functions that we can perform.
+        Show the functions that we can perform.
 
         :input: takes an integer and performs respective operation
         :return: None
         """
-        print(f'\n\t Home Inventory Database')
+        print(f'\n\t {self.db_name} Database')
         print('\n\t 1. Create Table.')
-        print('\t 2. Insert.')
-        print('\t 3. Remove record.')
-        print('\t 4. Print Inventory.')
-        print('\t 5. Search.')
+        print('\t 2. Create Inventory.')
+        print('\t 3. Insert Items.')
+        print('\t 4. Remove record.')
+        print('\t 5. Print Inventory.')
+        print('\t 6. Search.')
         print('\t 0. Exit.')
 
         self.choice = input("\n Enter the operation number you want to perform: ")
@@ -66,14 +74,13 @@ class Library:
             create_db = f"CREATE DATABASE IF NOT EXISTS {self.db_name};"
             curs.execute(create_db)
             print(f"{self.db_name} Database is created.")
-            curs.fetchall()
             curs.close()
         except ConnectionError as e:
             print(f"The Error is {e}")
 
     def create_table(self):
         """
-        Creates required tables with column names given by the user.
+        Create required tables with column names given by the user.
 
         :param: None
         :input: Number of tables
@@ -89,12 +96,14 @@ class Library:
             choice = input(" Enter 1 to create a parent table or 2 to create a child table: ")
             if choice == '1':
                 self.tab_name = input(f"Enter the table-{i + 1} name: ").capitalize()
-                col_name = input("Enter the primary key column name: ")
+                col_name = input("Enter the primary key column name: ").capitalize()
                 database = f"USE {self.db_name};"
                 curs.execute(database)
                 add_tab = f"CREATE TABLE IF NOT EXISTS {self.tab_name} " \
-                          f"(`{col_name}` INT(10) AUTO_INCREMENT NOT NULL PRIMARY KEY) AUTO_INCREMENT=1000"
+                          f"({col_name} INT(10) AUTO_INCREMENT NOT NULL PRIMARY KEY);"
                 curs.execute(add_tab)
+                add_tab1 = f"ALTER TABLE {self.tab_name} AUTO_INCREMENT=100;"
+                curs.execute(add_tab1)
                 curs.close()
                 self.connect.close()
                 while True:
@@ -124,7 +133,7 @@ class Library:
             elif choice == '2':
                 self.tab_name = input(f"Enter the table-{i + 1} name: ").capitalize()
                 parent_table = input("Enter the parent table name: ").capitalize()
-                col_name = input("Enter the primary key column name: ")
+                col_name = input("Enter the primary key column name: ").capitalize()
                 foreign_key = input("Enter the foreign key column name: ").capitalize()
                 database = f"USE {self.db_name};"
                 curs.execute(database)
@@ -134,6 +143,8 @@ class Library:
                           f"{foreign_key} INT(10)," \
                           f" FOREIGN KEY ({foreign_key}) REFERENCES `{parent_table}`(`{foreign_key}`));"
                 curs.execute(add_tab)
+                add_tab1 = f"ALTER TABLE {self.tab_name} AUTO_INCREMENT=200;"
+                curs.execute(add_tab1)
                 curs.close()
                 self.connect.close()
                 while True:
@@ -157,14 +168,46 @@ class Library:
                         curs.execute(show_tab)
                         tab = curs.fetchall()
                         for table in tab[:]:
-                            print(f'\t {i+1}. {table[0]}')
+                            print(f'\t {i}. {table[0]}')
                             i += 1
                         break
                 i += 1
 
+    def create_new_inventory(self):
+        """
+        Create new inventory and inserts the inventory name into inventory table.
+
+        :param: None
+        :input: Name of the inventories table name.
+        :input: Name of the inventory we want to create.
+        :input: Description of the inventory we created.
+        :return: Add the name and description of the created inventory to the inventories table.
+        """
+        self.connect.reconnect()
+        curs = self.connect.cursor()
+        tab_name = input("Enter the inventories table name: ").capitalize()
+        inv = f"SELECT NAME FROM {tab_name};"
+        curs.execute(inv)
+        inv_tab = curs.fetchall()
+        inventory_list = []
+        print(f'\n Inventories list:\n')
+        i = 1
+        for inv in inv_tab[:]:
+            print(f'\t{i}. {inv[0]}')
+            inventory_list.append(inv[0])
+            i += 1
+        inv_name = input("\nEnter the inventory name you want create: ").capitalize()
+        if inv_name in inventory_list[:]:
+            print("\n Enter a new inventory name")
+        else:
+            desc = input(f"Enter the description for {inv_name}: ").capitalize()
+            add_inv = f"INSERT INTO {tab_name} (Name, Description, Date) " \
+                      f"VALUES ('{inv_name}', '{desc}', '{date.today()}');"
+            curs.execute(add_inv)
+
     def insert(self):
         """
-        Inserts the data into the tables.
+        Insert the data into the tables.
 
         :param: None
         :input: table name
@@ -187,7 +230,7 @@ class Library:
                 tables.append(item[0])
                 i += 1
             print("\n")
-            file_name = input("Enter the name of the table: ").capitalize()
+            file_name = input("Enter the name of the table: ").capitalize().capitalize()
             col_names = []
             if file_name in tables[:]:
                 print(f"\n\tColumn Names in {file_name} table. \n")
@@ -215,8 +258,14 @@ class Library:
                 curs = self.connect.cursor()
 
                 for i in col_names[1:]:
-                    x = input(f"Enter the {i}: ").capitalize()
-                    det.append(x)
+                    if i != 'Date':
+                        x = input(f"Enter the {i}: ").capitalize()
+                        det.append(x)
+                    else:
+                        sql = f" INSERT INTO {file_name} ({i}) VALUES({date.today()});"
+                        curs.execute(sql)
+                        curs.close()
+                        self.connect.close()
                 database = f"USE {self.db_name};"
                 curs.execute(database)
                 sql = f"""INSERT INTO {file_name}  """ \
@@ -244,11 +293,12 @@ class Library:
 
         except mysql.connector.errors.ProgrammingError:
             pass
+        except mysql.connector.errors.IntegrityError:
+            print("\n\t  Check the foreign key value.\n")
 
     def remove(self):
         """
-        Removes the selected value by changing the selected column value to the #
-        and deletes when existing from the database.
+        Remove the item by changing the selected column value to the #, and deletes when existing from the database.
 
         :param: None
         :input: table name
@@ -282,7 +332,7 @@ class Library:
             columns = curs.fetchall()
             print(f"Columns in the table {file}:\n")
             i = 1
-            for column in columns[1:]:
+            for column in columns[2:]:
                 print(f"\t {i}. {column[0]}")
                 i += 1
             col_name = input("Enter the column name you want to lookup: ").capitalize()
@@ -293,7 +343,7 @@ class Library:
             curs.execute(column)
             columns = curs.fetchall()
             col1 = []
-            for row in columns[1:]:
+            for row in columns[2:]:
                 col1 = row[0]
                 break
             del_row = f"UPDATE {file} SET {col1} = '#' WHERE {col_name} = '{value}';"
@@ -304,7 +354,7 @@ class Library:
 
     def print(self):
         """
-        Displays the tables in the database.
+        Display the tables in the database.
 
         :param: None
         :input: table name you want to print
@@ -368,7 +418,7 @@ class Library:
 
     def search(self):
         """
-        display the information of the looked up item
+        Display the information of the looked up item.
 
         :param: None
         :input: table name to lookup
@@ -411,7 +461,8 @@ class Library:
 
     def purge(self):
         """
-        Deletes the values selected in the remove function and closes the mysql connection
+        Delete the values selected in the remove function and closes the mysql connection.
+
         :param: None
         :input: table name and column name to lookup for deletion
         :return: closes the connection with mysql database
@@ -429,14 +480,16 @@ class Library:
 
     def application(self):
         """
-        Runs the application until user enters 0.
+        Run the application until user enters 0.
 
         :return: create, insert, or delete databases or tables based on the user input
         """
         match self.choice:
             case self.CREATE_TABLE:
-                self.create_database()
+                # self.create_database()
                 self.create_table()
+            case self.CREATE_Inventory:
+                self.create_new_inventory()
             case self.INSERT:
                 self.insert()
             case self.REMOVE:

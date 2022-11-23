@@ -8,6 +8,9 @@ mysql = "*"
 tabulate = "*"
 maskpass = "*"
 mysql-connector = "*"
+pytest = "*"
+pydocstyle = "*"
+sphinx-press-theme = "*"
 
 [dev-packages]
 pytest = "*"
