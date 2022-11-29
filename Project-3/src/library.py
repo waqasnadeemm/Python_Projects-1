@@ -48,7 +48,6 @@ class Library:
         :input: takes an integer and performs respective operation
         :return: None
         """
-
         print(f'\n\t {self.db_name} Database')
         print('\n\t 1. Create Table.')
         print('\t 2. Create Inventory.')
@@ -192,7 +191,6 @@ class Library:
         :input: Description of the inventory we created.
         :return: Add the name and description of the created inventory to the inventories table.
         """
-
         try:
             self.connect.reconnect()
             curs = self.connect.cursor()
@@ -299,7 +297,7 @@ class Library:
                     det.clear()
                 elif ch == 'n':
                     choice = False
-                    print("Data Inserted.")
+                    print("\nData Inserted.")
                     self.connect.reconnect()
                     curs = self.connect.cursor()
                     database = f"USE {self.db_name};"
@@ -307,6 +305,7 @@ class Library:
                     data = f"SELECT * FROM {file_name};"
                     curs.execute(data)
                     tb_data = curs.fetchall()
+                    print("\n")
                     for row in tb_data[:]:
                         print(row)
 
