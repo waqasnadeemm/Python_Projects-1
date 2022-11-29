@@ -1,4 +1,4 @@
-"""Create mysql connection and inserts data into respective tables."""
+"""Create mysql connection and performs CRUD operations in respective tables."""
 # global
 import mysql.connector
 from tabulate import tabulate
@@ -35,7 +35,7 @@ class Library:
                 db=self.db_name
             )
         except mysql.connector.errors.InterfaceError as e:
-            print(f"Connect to mamp before trying...\n {e}")
+            print(f"\n ********* Connect to mamp before trying... ************ \n\n{e}")
             exit()
 
         # creating database
@@ -114,7 +114,7 @@ class Library:
                         self.connect.reconnect()
                         curs = self.connect.cursor()
                         try:
-                            col_name1, col_len1 = input("Enter the column name and column length: ").capitalize().split()
+                            col_name1, col_len1 = input("Enter column name and column length: ").capitalize().split()
                             database = f"USE {self.db_name};"
                             curs.execute(database)
                             if col_name1 != '':
@@ -155,7 +155,7 @@ class Library:
                         self.connect.reconnect()
                         curs = self.connect.cursor()
                         try:
-                            col_name1, col_len1 = input("Enter the column name and column length: ").capitalize().split()
+                            col_name1, col_len1 = input("Enter the column name and column length:").capitalize().split()
                             database = f"USE {self.db_name};"
                             curs.execute(database)
                             if col_name1 != '':

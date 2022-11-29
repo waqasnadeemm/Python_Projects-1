@@ -1,3 +1,4 @@
+""" This is the main module from where user can launch application."""
 from library import Library
 
 
