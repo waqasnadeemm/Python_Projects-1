@@ -353,7 +353,7 @@ class Library:
                 columns = curs.fetchall()
                 print(f"\nColumns in the table {file}:\n")
                 i = 1
-                for column in columns[2:]:
+                for column in columns[1:]:
                     print(f"\t {i}. {column[0]}")
                     i += 1
                 col_name = input("Enter the column name you want to lookup: ").capitalize()
