@@ -17,7 +17,8 @@ class InventoryApp:
 		self.SELECT_INVENTORY = '3'
 		self.LIST_INVENTORY_ITEMS = '4'
 		self.ADD_ITEMS = '5'
-		self.EXIT = '6'
+		self.SEARCH_ITEMS = '6'
+		self.EXIT = '7'
 		# Fields
 		self.menu_choice = 1
 		self.keep_going = True
@@ -37,7 +38,8 @@ class InventoryApp:
 		print('\t\t3. Select Inventory')
 		print('\t\t4. List Inventory Items')
 		print('\t\t5. Add Items')
-		print('\t\t6. Exit')
+		print('\t\t6. Search Items')
+		print('\t\t7. Exit')
 		print()
 
 	def process_menu_choice(self):
@@ -56,6 +58,8 @@ class InventoryApp:
 				self.list_inventory_items()
 			case self.ADD_ITEMS:
 				self.add_items()
+			case self.SEARCH_ITEMS:
+				self.search_items()
 			case self.EXIT:
 				if __debug__:
 					print('Goodbye!')
@@ -122,6 +126,26 @@ class InventoryApp:
 		count = int(input(f"Enter the count of {item}:"))
 		self.business_logic.add_new_items(inventory_id=inv_id, item=item, count=count)
 
+	def search_items(self):
+		"""search the item in items table."""
+		self.clear_screen()
+		if __debug__:
+			print('Search_items method called...')
+		print('\nHow you want to lookup:\n\t1. Item id \n\t2.Item_name')
+		choice = int(input('\nEnter 1 or 2 :'))
+		if choice == 1:
+			item_id = int(input('Enter the item id:'))
+			item = self.business_logic.search_item_by_id(item_id=item_id)
+			self.print_search_item(item)
+			input('Enter any key to continue...')
+		elif choice == 2:
+			item_name = str(input('Enter the name of the item:'))
+			item = self.business_logic.search_item_by_name(item_name=item_name)
+			self.print_search_item(item)
+			input('Enter any key to continue...')
+		else:
+			print('Enter either 1 or 2.')
+
 	def start_application(self):
 		"""Start the applications."""
 		while self.keep_going:
@@ -138,5 +162,11 @@ class InventoryApp:
 	def print_items_list(self, items_list):
 		t = PrettyTable(['ID', 'Inventory ID', 'Item', 'Count'])
 		for row in items_list:
+			t.add_row([row[0], row[1], row[2], row[3]])
+		print(t)
+
+	def print_search_item(self, item):
+		t = PrettyTable(['ID', 'Item', 'Count', 'Inventory Id'])
+		for row in item:
 			t.add_row([row[0], row[1], row[2], row[3]])
 		print(t)
