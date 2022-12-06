@@ -14,6 +14,8 @@ class MySQLPersistenceWrapper(PersistenceWrapperInterface):
 		self.INSERT = 'INSERT INTO items (inventory_id, item, count) VALUES(%s, %s, %s);'
 		self.SELECT_ALL_ITEMS_FOR_INVENTORY_ID = 'SELECT id, inventory_id, item, count FROM items WHERE inventory_id = %s;'
 		self.INSERT_INV = 'INSERT INTO INVENTORIES (name, description, date_created) VALUES(%s, %s, %s);'
+		self.SEARCH_BY_ID = 'SELECT * FROM ITEMS WHERE id = %s'
+		self.SEARCH_BY_NAME = 'SELECT * FROM ITEMS WHERE item = %s'
 		# Database Configuration Constants
 		self.DB_CONFIG = {}
 		self.DB_CONFIG['database'] = 'home_inventory'
@@ -64,6 +66,26 @@ class MySQLPersistenceWrapper(PersistenceWrapperInterface):
 			cursor.execute(self.INSERT, (inventory_id, item, count))
 		except Exception as e:
 			print(f'Exception in persistence wrapper: {e}')
+
+	def search_by_id(self, item_id: int):
+		"""Search item from items tables using item id."""
+		try:
+			cursor = self._db_connection.cursor()
+			cursor.execute(self.SEARCH_BY_ID, [item_id])
+			search = cursor.fetchall()
+		except Exception as e:
+			print(f'Exception in persistence wrapper1: {e}')
+		return search
+
+	def search_by_name(self, item_name: str):
+		"""Search item from items tables using item name."""
+		try:
+			cursor = self._db_connection.cursor()
+			cursor.execute(self.SEARCH_BY_NAME, [item_name])
+			search = cursor.fetchall()
+		except Exception as e:
+			print(f'Exception in persistence wrapper: {e}')
+		return search
 		
 	def _initialize_database_connection(self, config):
 		"""Initializes and returns database connection pool."""

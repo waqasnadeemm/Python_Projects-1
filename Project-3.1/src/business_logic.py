@@ -55,6 +55,22 @@ class BusinessLogic:
 			print(f'Exception is {e}')
 		return new_item
 
+	def search_item_by_id(self, item_id: int):
+		"""Search for the item in items table"""
+		try:
+			search = self._persistence_wrapper.search_by_id(item_id=item_id)
+		except Exception as e:
+			print(f'Exception is {e}')
+		return search
+
+	def search_item_by_name(self, item_name: str):
+		"""Search for the item in items table"""
+		try:
+			search = self._persistence_wrapper.search_by_name(item_name=item_name)
+		except Exception as e:
+			print(f'Exception is {e}')
+		return search
+
 	def get_items_for_inventory_id(self, id):
 		"""Gets all items for given inventory id."""
 		query_results = None

@@ -28,3 +28,13 @@ class PersistenceWrapperInterface(ABC):
 	def create_item(self, inventory_id: int, item: str, count: int):
 		"""Inserts new item into datastore for given inventory id."""
 		pass
+
+	@abstractmethod
+	def search_by_id(self, item_id: int):
+		"""Search item by item id in items table."""
+		pass
+
+	@abstractmethod
+	def search_by_name(self, item_name: str):
+		"""Search item by item name in items table."""
+		pass
